@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:green_dhaka/home/home_page.dart';
 import 'package:green_dhaka/registration/registration.dart';
 import 'package:green_dhaka/widget/common/input_field_builder.dart';
 import 'package:green_dhaka/widget/common/long_button_builder.dart';
@@ -14,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var _formKey;
   var fieldKey;
-  bool _passwordVisible = true;
+  bool _passwordVisible = false;
   bool emailValid;
   TextEditingController _textEditingController = TextEditingController();
   @override
@@ -117,37 +118,46 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: <Widget>[
                               InputFieldBuilder(
                                 iconName: 'email',
-                                textFormField: TextFormField(
-                                  key: fieldKey,
-                                  controller: _textEditingController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        top: 10, bottom: 10, left: 10),
-                                    border: InputBorder.none,
-                                    focusColor: MyColor.primary,
-                                    suffixIcon: Icon(Icons.check),
-                                    hintText: 'Please enter your email or '
-                                        'phone',
-                                    labelText: 'Email or Phone',
+                                textFormField: Theme(
+                                  data: Theme.of(context).copyWith(
+                                    primaryColor: MyColor.primary,
                                   ),
-                                  onChanged: (String val) {
-                                    return val;
-                                  },
-                                  validator: (String value) {
-                                    var email = "tony@starkindustries.com";
-                                    emailValid = RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(email);
-                                    if (value.isEmpty) {
-                                      return 'Email number is '
-                                          'required';
-                                    }
-                                    if (emailValid == false) {
-                                      return 'Wrong email';
-                                    }
-                                    return " ";
-                                  },
+                                  child: TextFormField(
+                                    key: fieldKey,
+                                    controller: _textEditingController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.only(
+                                            top: 10, bottom: 10, left: 10),
+                                        border: InputBorder.none,
+                                        focusColor: MyColor.primary,
+                                        suffixIcon: Icon(
+                                          Icons.check,
+                                          color: MyColor.primary,
+                                        ),
+                                        hintText: 'Please enter your email or '
+                                            'phone',
+                                        labelText: 'Email or Phone',
+                                        labelStyle:
+                                            TextStyle(color: MyColor.primary)),
+                                    onChanged: (String val) {
+                                      return val;
+                                    },
+                                    validator: (String value) {
+                                      var email = "tony@starkindustries.com";
+                                      emailValid = RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(email);
+                                      if (value.isEmpty) {
+                                        return 'Email number is '
+                                            'required';
+                                      }
+                                      if (emailValid == false) {
+                                        return 'Wrong email';
+                                      }
+                                      return " ";
+                                    },
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -174,12 +184,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                           _passwordVisible = false;
                                         });
                                       },
-                                      child: Icon(_passwordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off),
+                                      child: _passwordVisible
+                                          ? Icon(
+                                              Icons.visibility_off,
+                                              color: MyColor.primary,
+                                            )
+                                          : Icon(
+                                              Icons.visibility_off,
+                                              color: MyColor.primary,
+                                            ),
                                     ),
                                     hintText: 'Please enter your password',
                                     labelText: 'Password',
+                                    labelStyle:
+                                        TextStyle(color: MyColor.primary),
                                   ),
                                   onSaved: (String val) {
                                     return val;
@@ -219,6 +237,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               LongButtonBuilder(
                                 buttonText: 'Continue',
                                 onPressed: () {
+                                  Route route = MaterialPageRoute(
+                                      builder: (context) => HomePage());
+                                  Navigator.push(context, route);
                                   //TODO Do something
 //                                  if (_formKey.currentState.validate()) {
 //                                    setState(() {

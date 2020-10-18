@@ -8,11 +8,11 @@ class AppRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 //    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//        //systemNavigationBarColor: MyColor.primary,
-//        //statusBarColor: MyColor.primary,
-//        //statusBarIconBrightness: Brightness.light,
-//        //systemNavigationBarIconBrightness: Brightness.dark,
-//        ));
+//      systemNavigationBarColor: MyColor.primary,
+//      statusBarColor: MyColor.primary,
+//      statusBarIconBrightness: Brightness.light,
+//      systemNavigationBarIconBrightness: Brightness.dark,
+//    ));
     SystemChrome.setPreferredOrientations(
       [
         DeviceOrientation.portraitUp,

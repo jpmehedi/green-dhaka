@@ -14,7 +14,7 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   var _formKey;
   var fieldKey;
-  bool _passwordVisible = true;
+  bool _passwordVisible = false;
 
   bool validateEmail(String value) {
     Pattern pattern =
@@ -54,9 +54,13 @@ class _RegistrationState extends State<Registration> {
                                 contentPadding: EdgeInsets.only(
                                     top: 10, bottom: 10, left: 10),
                                 border: InputBorder.none,
-                                suffixIcon: Icon(Icons.check),
+                                suffixIcon: Icon(
+                                  Icons.check,
+                                  color: MyColor.primary,
+                                ),
                                 hintText: 'Please enter your full name',
                                 labelText: 'Full name',
+                                labelStyle: TextStyle(color: MyColor.primary),
                               ),
                               onSaved: (String val) {
                                 return val;
@@ -79,9 +83,13 @@ class _RegistrationState extends State<Registration> {
                                 contentPadding: EdgeInsets.only(
                                     top: 10, bottom: 10, left: 10),
                                 border: InputBorder.none,
-                                suffixIcon: Icon(Icons.check),
+                                suffixIcon: Icon(
+                                  Icons.check,
+                                  color: MyColor.primary,
+                                ),
                                 hintText: 'Please enter your email',
                                 labelText: 'Email address',
+                                labelStyle: TextStyle(color: MyColor.primary),
                               ),
                               onSaved: (String val) {
                                 return val;
@@ -103,9 +111,13 @@ class _RegistrationState extends State<Registration> {
                                 contentPadding: EdgeInsets.only(
                                     top: 10, bottom: 10, left: 10),
                                 border: InputBorder.none,
-                                suffixIcon: Icon(Icons.check),
+                                suffixIcon: Icon(
+                                  Icons.check,
+                                  color: MyColor.primary,
+                                ),
                                 hintText: 'Please enter your phone',
                                 labelText: 'Phone number',
+                                labelStyle: TextStyle(color: MyColor.primary),
                               ),
                               onChanged: (String val) {
                                 return val;
@@ -139,12 +151,19 @@ class _RegistrationState extends State<Registration> {
                                       _passwordVisible = false;
                                     });
                                   },
-                                  child: Icon(_passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
+                                  child: _passwordVisible
+                                      ? Icon(
+                                          Icons.visibility_off,
+                                          color: MyColor.primary,
+                                        )
+                                      : Icon(
+                                          Icons.visibility_off,
+                                          color: MyColor.primary,
+                                        ),
                                 ),
                                 hintText: 'Please enter your email password',
                                 labelText: 'Password',
+                                labelStyle: TextStyle(color: MyColor.primary),
                               ),
                               onSaved: (String val) {
                                 return val;
