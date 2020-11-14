@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:green_dhaka/constraint/color.dart';
 
 class SideBar extends StatelessWidget {
@@ -55,7 +55,7 @@ class SideBar extends StatelessWidget {
                 children: <Widget>[
                   IconButton(
                     icon: Icon(
-                      FontAwesomeIcons.solidEdit,
+                      Icons.edit,
                       color: MyColor.whitish,
                     ),
                     onPressed: () {},
@@ -133,7 +133,8 @@ class SideBar extends StatelessWidget {
                       //TODO
                     },
                     icon: Icon(
-                      FontAwesomeIcons.facebook,
+                      //FontAwesomeIcons.facebook,
+                      Icons.account_box,
                       color: MyColor.primary,
                     ),
                   ),
@@ -142,7 +143,8 @@ class SideBar extends StatelessWidget {
                       //TODO
                     },
                     icon: Icon(
-                      FontAwesomeIcons.instagram,
+                      // FontAwesomeIcons.instagram,
+                      Icons.account_box,
                       color: MyColor.primary,
                     ),
                   ),
@@ -151,7 +153,8 @@ class SideBar extends StatelessWidget {
                       //TODO
                     },
                     icon: Icon(
-                      FontAwesomeIcons.twitter,
+                      //FontAwesomeIcons.twitter,
+                      Icons.account_box,
                       color: MyColor.primary,
                     ),
                   ),
