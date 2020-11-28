@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/home/home_page.dart';
 import 'package:green_dhaka/widget/common/input_field_builder.dart';
 import 'package:green_dhaka/widget/common/long_button_builder.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Registration extends StatefulWidget {
   static String PATH = "/Registration";
@@ -15,13 +18,32 @@ class _RegistrationState extends State<Registration> {
   var _formKey;
   var fieldKey;
   bool _passwordVisible = false;
+  final _auth = FirebaseAuth.instance;
 
-  bool validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    return (!regex.hasMatch(value)) ? false : true;
-  }
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  
+   void saveProfileInfo(){
+      final firestoreInstance = FirebaseFirestore.instance;
+      firestoreInstance.collection("profileInfo").add({
+        'userName' : userNameController.text,
+        'userEmail': emailController.text,
+        'userPhone': phoneNumberController.text,
+        'userPassword':passwordController.text
+      }).then((value){
+        print(value.id);
+      });
+    }
+    
+    bool validateEmail(String value) {
+      Pattern pattern =
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regex = new RegExp(pattern);
+      return (!regex.hasMatch(value)) ? false : true;
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +70,7 @@ class _RegistrationState extends State<Registration> {
                           InputFieldBuilder(
                             iconName: 'person',
                             textFormField: TextFormField(
+                              controller: userNameController,
                               key: fieldKey,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
@@ -63,7 +86,7 @@ class _RegistrationState extends State<Registration> {
                                 labelStyle: TextStyle(color: MyColor.primary),
                               ),
                               onSaved: (String val) {
-                                return val;
+                                userNameController.text = val;
                               },
                               validator: (String value) {
                                 validateEmail(value);
@@ -77,6 +100,7 @@ class _RegistrationState extends State<Registration> {
                           InputFieldBuilder(
                             iconName: 'email',
                             textFormField: TextFormField(
+                              controller: emailController,
                               key: fieldKey,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
@@ -92,7 +116,7 @@ class _RegistrationState extends State<Registration> {
                                 labelStyle: TextStyle(color: MyColor.primary),
                               ),
                               onSaved: (String val) {
-                                return val;
+                                emailController.text = val;
                               },
                               validator: (String value) {
                                 return value;
@@ -105,6 +129,7 @@ class _RegistrationState extends State<Registration> {
                           InputFieldBuilder(
                             iconName: 'phone',
                             textFormField: TextFormField(
+                              controller: phoneNumberController,
                               key: fieldKey,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
@@ -119,8 +144,8 @@ class _RegistrationState extends State<Registration> {
                                 labelText: 'Phone number',
                                 labelStyle: TextStyle(color: MyColor.primary),
                               ),
-                              onChanged: (String val) {
-                                return val;
+                              onSaved: (String val) {
+                                phoneNumberController.text = val;
                               },
                               validator: (String value) {
                                 return value;
@@ -133,6 +158,7 @@ class _RegistrationState extends State<Registration> {
                           InputFieldBuilder(
                             iconName: 'password',
                             textFormField: TextFormField(
+                              controller: passwordController,
                               key: fieldKey,
                               obscureText: !_passwordVisible,
                               keyboardType: TextInputType.visiblePassword,
@@ -166,7 +192,7 @@ class _RegistrationState extends State<Registration> {
                                 labelStyle: TextStyle(color: MyColor.primary),
                               ),
                               onSaved: (String val) {
-                                return val;
+                                passwordController.text = val;
                               },
                               validator: (String value) {
                                 if (value.isEmpty) {
@@ -185,8 +211,23 @@ class _RegistrationState extends State<Registration> {
                     Container(
                       child: LongButtonBuilder(
                         buttonText: 'Create an account',
-                        onPressed: () {
-                          //TODO registration functionality
+                        onPressed: ()async {
+                          saveProfileInfo();
+                          try{
+                            final newUser = await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+                          
+                            if(newUser != null){     
+                              Navigator.pushNamed(context, HomePage.path);
+                            }  
+                          }on FirebaseAuthException catch (e) {
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                            } else if (e.code == 'email-already-in-use') {
+                              print('The account already exists for that email.');
+                            }
+                          } catch(e) {
+                          print(e);
+                          }
                         },
                       ),
                     ),
@@ -236,3 +277,4 @@ class _RegistrationState extends State<Registration> {
     );
   }
 }
+

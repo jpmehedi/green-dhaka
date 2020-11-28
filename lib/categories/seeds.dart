@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/widget/common/most_popular_cart.dart';
 
-class PlantScreen extends StatefulWidget {
-  PlantScreen({Key key}) : super(key: key);
+class SeedScreen extends StatefulWidget {
+  SeedScreen({Key key}) : super(key: key);
 
   @override
-  _PlantScreenState createState() => _PlantScreenState();
+  _SeedScreenState createState() => _SeedScreenState();
 }
 
-class _PlantScreenState extends State<PlantScreen> {
+class _SeedScreenState extends State<SeedScreen> {
   int _selectedIndex = 0;
   final padding = 8.0;
   @override
@@ -153,7 +153,6 @@ class _ContentSpaceState extends State<ContentSpace> {
                 height: 24,
               ),
               Flexible(
-                flex: 1,
                 child: GridView.count(
                   crossAxisCount: 2,
                   shrinkWrap: true,

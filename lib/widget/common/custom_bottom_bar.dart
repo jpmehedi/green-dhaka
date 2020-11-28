@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 
 class BottomBar extends StatelessWidget {
-  BottomBar({this.onTapHome, this.onTapProduct});
+  BottomBar({this.onTapHome, this.onTapFavorite,this.onTapOrderList});
   final Function onTapHome;
-  final Function onTapProduct;
+  final Function onTapFavorite;
+  final Function onTapOrderList;
+  bool isSelecteted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +32,20 @@ class BottomBar extends StatelessWidget {
               //margin: EdgeInsets.only(top: 15),
               //width: MediaQuery.of(context).size.width / 2 - 40.0,
               child: MaterialButton(
-                padding: EdgeInsets.only(top: 18),
-                onPressed: onTapHome,
+                padding: EdgeInsets.only(top: 10,bottom: 10),
+                onPressed: onTapFavorite,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Image.asset('assets/images/favorite.png'),
+                     isSelecteted == true ? Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: MyColor.secondary
+                      ),
+                    ) : Container(),
                   ],
                 ),
               ),
@@ -44,12 +54,20 @@ class BottomBar extends StatelessWidget {
               height: 65.0,
               //width: MediaQuery.of(context).size.width / 2 - 40.0,
               child: MaterialButton(
-                padding: EdgeInsets.only(top: 18),
-                onPressed: onTapProduct,
+                padding: EdgeInsets.only(top: 10,bottom: 10),
+                onPressed: onTapHome,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Image.asset('assets/images/home.png'),
+                    isSelecteted == false ? Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: MyColor.secondary
+                      ),
+                    ) : Container(),
                   ],
                 ),
               ),
@@ -58,12 +76,20 @@ class BottomBar extends StatelessWidget {
               height: 65.0,
               // width: MediaQuery.of(context).size.width / 2 - 40.0,
               child: MaterialButton(
-                padding: EdgeInsets.only(top: 18),
-                onPressed: onTapProduct,
+                padding: EdgeInsets.only(top: 10,bottom: 10),
+                onPressed: onTapOrderList,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Image.asset('assets/images/nav_cart.png'),
+                      isSelecteted == true ? Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: MyColor.secondary
+                      ),
+                    ) : Container(),
                   ],
                 ),
               ),

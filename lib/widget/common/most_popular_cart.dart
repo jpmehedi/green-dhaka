@@ -16,22 +16,22 @@ class MostPopularCart extends StatelessWidget {
     return Card(
       elevation: 3,
       child: Container(
-        height: MediaQuery.of(context).size.height,
+        //height: 200,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            SizedBox(height: 10,),
             Container(
-              height: 100,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8.0),
                   topRight: Radius.circular(8.0),
                 ),
                 child: Image.asset(
-                  'assets/images/flower$imageID.png',
-                  width: 180,
-                  height: 100,
+                  'assets/images/flower$imageID',
+                  width: 120,
+                  height: 140,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -42,7 +42,7 @@ class MostPopularCart extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(left: 10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
@@ -52,38 +52,54 @@ class MostPopularCart extends StatelessWidget {
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(height: 10,),
+                  Align(
+                    alignment: Alignment.centerRight,
+                      child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Price: ",
+                            style: TextStyle(
+                              color: MyColor.primary,
+                              fontSize: 16,
+                            ),
+                          ),
+                        Text(
+                          "$productPrice",
+                            style: TextStyle(
+                              color: MyColor.primary,
+                              fontSize: 16,
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 8,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("$productPrice",
-                          style: TextStyle(
-                            color: MyColor.primary,
-                            fontSize: 16,
-                          )),
+                      Text(
+                        "Details",
+                        style: TextStyle(
+                          color: MyColor.primary,
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              "Details",
-                              style: TextStyle(
-                                color: MyColor.primary,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: MyColor.primary,
-                              size: 16,
-                            )
-                          ],
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: MyColor.primary,
+                          size: 16,
                         ),
                       )
                     ],
                   ),
+                
                 ],
               ),
             )

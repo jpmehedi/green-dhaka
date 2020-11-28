@@ -1,21 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:green_dhaka/cart/cart.dart';
+import 'package:green_dhaka/categories/plants.dart';
+import 'package:green_dhaka/categories/seeds.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/favorite/favorite.dart';
+import 'package:green_dhaka/my_order/my_order.dart';
+import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/sidebar/sidebar.dart';
 import 'package:green_dhaka/widget/common/catagory_builder.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/custom_bottom_bar.dart';
 import 'package:green_dhaka/widget/common/most_popular_cart.dart';
 import 'package:green_dhaka/widget/common/offer_card_builder.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
+  static final String path = "HomePage";
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _auth = FirebaseAuth.instance;
+  User loggedInUser;
+  @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+      getCurrentUser();
+    }
+  void getCurrentUser(){
+    final _user =  _auth.currentUser;
+    if(_user != null){
+      loggedInUser = _user;
+    }
+  }
+
+  
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+  final double itemHeight = (size.height) / 2.2;
+  final double itemWidth = (size.width) / 2;
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -43,10 +70,16 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(right: 15),
                   child: Row(
                     children: <Widget>[
-                      Container(
-                        height: 40,
-                        width: 40,
-                        child: Image.asset('assets/images/cart.png'),
+                      InkWell(
+                        onTap: (){
+                          Route route = MaterialPageRoute(builder: (_)=> CartPage());
+                          Navigator.push(context, route);
+                        },
+                         child: Container(
+                          height: 40,
+                          width: 40,
+                          child: Image.asset('assets/images/cart.png'),
+                        ),
                       ),
                     ],
                   ),
@@ -172,12 +205,17 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.only(left: 15),
                         child: Container(
                           height: 140,
+                          
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
                               OfferCartBuilder(
                                 imageID: '1',
                                 foodName: 'ITALIAN',
+                                onTap: (){
+                                  Route route = MaterialPageRoute(builder: (_)=>ProductDetails());
+                                  Navigator.push(context, route);
+                                },
                               ),
                               SizedBox(
                                 width: 15,
@@ -268,7 +306,10 @@ class _HomePageState extends State<HomePage> {
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
                               CategoryBuilder(
-                                onTap: () {},
+                                onTap: () {
+                                  Route route = MaterialPageRoute(builder: (_)=> PlantScreen());
+                                  Navigator.push(context, route);
+                                },
                                 imageID: '1',
                                 categoryName: 'Plants',
                               ),
@@ -276,6 +317,10 @@ class _HomePageState extends State<HomePage> {
                                 width: 15,
                               ),
                               CategoryBuilder(
+                                onTap: (){ 
+                                   Route route = MaterialPageRoute(builder: (_)=> SeedScreen());
+                                  Navigator.push(context, route);
+                                },
                                 imageID: '2',
                                 categoryName: 'Seeds',
                               ),
@@ -320,94 +365,92 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Most Popular',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: MyColor.textColor,
-                              ),
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Most Popular',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: MyColor.textColor,
                             ),
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    "View All",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xff2F434C),
+                          ),
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "View All",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color(0xff2F434C),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    //TODO
+                                  },
+                                  child: Container(
+                                    child: Icon(
+                                      Icons.keyboard_arrow_right,
+                                      size: 30,
+                                      color: MyColor.textColor,
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      //TODO
-                                    },
-                                    child: Container(
-                                      child: Icon(
-                                        Icons.keyboard_arrow_right,
-                                        size: 30,
-                                        color: MyColor.textColor,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 12, right: 15),
-                        height: MediaQuery.of(context).size.width,
-                        child: GridView.count(
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                     padding: EdgeInsets.only(left: 12, right: 15),
+                      height: MediaQuery.of(context).size.height / 1.2,
+                      child: Flexible(
+                         child: GridView.count(
                           primary: false,
                           crossAxisCount: 2,
                           crossAxisSpacing: 15,
                           mainAxisSpacing: 15,
-                          physics: ClampingScrollPhysics(),
+                          childAspectRatio: (itemWidth / itemHeight),
+                         // physics: ClampingScrollPhysics(),
                           children: <Widget>[
                             MostPopularCart(
-                              imageID: '1',
+                              imageID: '10.jpg',
                               productName: "Sun flower",
                               productPrice: "290 \$",
                             ),
                             MostPopularCart(
-                              imageID: '1',
+                              imageID: '10.jpg',
                               productName: "Sun flower",
                               productPrice: "290 \$",
                             ),
                             MostPopularCart(
-                              imageID: '1',
+                              imageID: '10.jpg',
                               productName: "Sun flower",
                               productPrice: "290 \$",
                             ),
                             MostPopularCart(
-                              imageID: '1',
+                              imageID: '10.jpg',
                               productName: "Sun flower",
                               productPrice: "290 \$",
                             ),
                           ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
+                SizedBox(height: 10,),
+                 Padding(
                         padding: EdgeInsets.only(left: 15, right: 15),
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -419,61 +462,69 @@ class _HomePageState extends State<HomePage> {
                               color: MyColor.textColor,
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 2.0,
-                        child: ListView.builder(
-                          itemCount: 4,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Image.asset('assets/images/profile'
-                                  '.png'),
-                              title: Text("Mehedi Hasan"),
-                              subtitle: Text(
-                                "Nice app and well developed by the team.",
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              trailing: Container(
-                                  width: 50,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "5",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: MyColor.primary,
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        size: 22,
-                                        color: MyColor.primary,
-                                      ),
-                                    ],
-                                  )),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                )
+                    ),
+                ),
+                Column(
+                  children: [
+                    Reviews(),
+                    Reviews(),
+                    Reviews(),
+                    Reviews(),
+                    Reviews(),
+                  ],
+                ),
+                
               ],
             ),
           ),
         ),
         bottomNavigationBar: BottomBar(
-          onTapHome: () {},
-          onTapProduct: () {
-//          Route route = MaterialPageRoute(builder: (context) => CartScreen());
-//          Navigator.push(context, route);
+          onTapHome: () {
+  
+          },
+          onTapFavorite: () {
+          Route route = MaterialPageRoute(builder: (context) => FavoritePage());
+          Navigator.push(context, route);
+          },
+          onTapOrderList: (){
+            Route route = MaterialPageRoute(builder: (context) => MyOrderPage());
+          Navigator.push(context, route);
           },
         ),
       ),
     );
+  }
+}
+
+class Reviews extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+                       leading: Image.asset('assets/images/profile'
+                           '.png'),
+                       title: Text("Mehedi Hasan"),
+                       subtitle: Text(
+                         "Nice app and well developed by the team.",
+                         overflow: TextOverflow.ellipsis,
+                       ),
+                       trailing: Container(
+                           width: 50,
+                           child: Row(
+                             children: <Widget>[
+                               Text(
+                                 "5",
+                                 style: TextStyle(
+                                   fontSize: 18,
+                                   color: MyColor.primary,
+                                 ),
+                               ),
+                               Icon(
+                                 Icons.star,
+                                 size: 22,
+                                 color: MyColor.primary,
+                               ),
+                             ],
+                           )),
+                     );
   }
 }

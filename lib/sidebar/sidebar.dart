@@ -1,8 +1,35 @@
-import 'package:flutter/material.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:green_dhaka/constraint/color.dart';
 
-class SideBar extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:green_dhaka/constraint/color.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:green_dhaka/profile/profile.dart';
+
+class SideBar extends StatefulWidget {
+  @override
+  _SideBarState createState() => _SideBarState();
+}
+
+class _SideBarState extends State<SideBar> {
+
+  Map<String, dynamic> data;
+   final firestoreInstance = FirebaseFirestore.instance.collection("profileInfo");
+    Future fetchProfileData()async{
+    firestoreInstance.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        setState(() {
+          data = result.data();
+        });
+      print(data);
+      });
+     });
+    }
+    @override
+    void initState() {
+    fetchProfileData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -38,11 +65,11 @@ class SideBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Mehedi Hasan',
+                    data != null? data['userName'] : "",
                     style: TextStyle(fontSize: 17, color: MyColor.whitish),
                   ),
-                  Text(
-                    'Mirpur, Dhaka',
+                Text(
+                    data != null ? data['userPhone'] : "",
                     style: TextStyle(fontSize: 17, color: MyColor.whitish),
                   ),
                 ],
@@ -53,12 +80,17 @@ class SideBar extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  IconButton(
+                  data != null ?IconButton(
                     icon: Icon(
                       Icons.edit,
                       color: MyColor.whitish,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Route route = MaterialPageRoute(builder: (_)=> Profile());
+                      Navigator.push(context, route);
+                    },
+                  ) : Container(
+                    
                   ),
                 ],
               )
@@ -133,8 +165,8 @@ class SideBar extends StatelessWidget {
                       //TODO
                     },
                     icon: Icon(
-                      //FontAwesomeIcons.facebook,
-                      Icons.account_box,
+                      FontAwesomeIcons.facebook,
+                      //Icons.account_box,
                       color: MyColor.primary,
                     ),
                   ),
@@ -143,8 +175,8 @@ class SideBar extends StatelessWidget {
                       //TODO
                     },
                     icon: Icon(
-                      // FontAwesomeIcons.instagram,
-                      Icons.account_box,
+                      FontAwesomeIcons.instagram,
+                      //Icons.account_box,
                       color: MyColor.primary,
                     ),
                   ),
@@ -153,8 +185,8 @@ class SideBar extends StatelessWidget {
                       //TODO
                     },
                     icon: Icon(
-                      //FontAwesomeIcons.twitter,
-                      Icons.account_box,
+                      FontAwesomeIcons.twitter,
+                      //Icons.account_box,
                       color: MyColor.primary,
                     ),
                   ),

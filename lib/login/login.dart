@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/home/home_page.dart';
 import 'package:green_dhaka/registration/registration.dart';
@@ -17,10 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
   var fieldKey;
   bool _passwordVisible = false;
   bool emailValid;
-  TextEditingController _textEditingController = TextEditingController();
+  TextEditingController _emailEditingController = TextEditingController();
+  TextEditingController _passwordEditingController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -124,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   child: TextFormField(
                                     key: fieldKey,
-                                    controller: _textEditingController,
+                                    controller: _emailEditingController,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                         contentPadding: EdgeInsets.only(
@@ -140,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         labelText: 'Email or Phone',
                                         labelStyle:
                                             TextStyle(color: MyColor.primary)),
-                                    onChanged: (String val) {
-                                      return val;
+                                    onSaved: (String val) {
+                                      _emailEditingController.text = val;
                                     },
                                     validator: (String value) {
                                       var email = "tony@starkindustries.com";
@@ -166,6 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               InputFieldBuilder(
                                 iconName: 'password',
                                 textFormField: TextFormField(
+                                  controller: _passwordEditingController,
                                   key: fieldKey,
                                   obscureText: !_passwordVisible,
                                   keyboardType: TextInputType.visiblePassword,
@@ -200,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         TextStyle(color: MyColor.primary),
                                   ),
                                   onSaved: (String val) {
-                                    return val;
+                                    _passwordEditingController.text = val;
                                   },
                                   validator: (String value) {
                                     if (value.isEmpty) {
@@ -236,16 +241,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               LongButtonBuilder(
                                 buttonText: 'Continue',
-                                onPressed: () {
-                                  Route route = MaterialPageRoute(
-                                      builder: (context) => HomePage());
-                                  Navigator.push(context, route);
-                                  //TODO Do something
-//                                  if (_formKey.currentState.validate()) {
-//                                    setState(() {
-//                                      print("Email is right");
-//                                    });
-//                                  }
+                                onPressed: ()async {
+                                    try{
+                                      final authUser = await _auth.signInWithEmailAndPassword(
+                                        email: _emailEditingController.text, 
+                                        password: _passwordEditingController.text
+                                      );
+                                      if(authUser != null){
+                                      Route route = MaterialPageRoute(builder: (context) => HomePage());
+                                      Navigator.push(context, route);
+                                    }
+                                    }catch(e){
+                                      print(e);
+                                    }
                                 },
                               ),
                               SizedBox(
