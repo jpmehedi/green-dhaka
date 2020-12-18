@@ -32,15 +32,6 @@ class _PlantScreenState extends State<PlantScreen> {
             leading: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 8,
-                ),
-                Center(
-                  child: CircleAvatar(
-                    radius: 16,
-                    backgroundImage: AssetImage('assets/images/avatar.png'),
-                  ),
-                ),
-                SizedBox(
                   height: 108,
                 ),
                 RotatedBox(
@@ -123,7 +114,7 @@ class _ContentSpaceState extends State<ContentSpace> {
   
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 8, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
         child: MediaQuery.removePadding(
           removeTop: true,
           context: context,
@@ -143,9 +134,6 @@ class _ContentSpaceState extends State<ContentSpace> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 24,
-              ),
               Text(
                 titles[widget._selectedIndex],
                 style: Theme.of(context).textTheme.headline4),
@@ -154,68 +142,216 @@ class _ContentSpaceState extends State<ContentSpace> {
               ),
               Flexible(
                 flex: 1,
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(4.0),
-                  childAspectRatio: (itemWidth / itemHeight),
-                  children: [
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
-                      productPrice: "485 TK",
-                    ),
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
-                      productPrice: "485 TK",
-                    ),
-                     MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
-                      productPrice: "485 TK",
-                    ),
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
-                      productPrice: "680 TK",
-                    ),
-                     MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
-                      productPrice: "485 TK",
-                    ),
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
-                      productPrice: "485 TK",
-                    ),
-                  ]
-                ),
-              ),
+                child: getSelectedItems(itemWidth,itemHeight),
+              )
+              
+              
             ],
           ),
         ),
       ),
     );
   }
-}
+  
+  getSelectedItems<Widget>(itemWidth,itemHeight){
+    if(widget._selectedIndex == 0){
+     return buildRooftopItem(itemWidth, itemHeight);
+    }
+    if(widget._selectedIndex == 1){
+     return buildOutDoorItem(itemWidth, itemHeight);
+    }
+     if(widget._selectedIndex == 2){
+     return buildIndoorItem(itemWidth, itemHeight);
+    }
+     if(widget._selectedIndex == 3){
+     return buildAllItem(itemWidth, itemHeight);
+    }
+  }
 
-class ImageCard extends StatelessWidget {
-  final uri;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(0, 0, 24, 24),
-      child: Image.network(uri),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      elevation: 0.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+  Widget buildRooftopItem(double itemWidth, double itemHeight) {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      childAspectRatio: (itemWidth / itemHeight),
+      children: [
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "680 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+      ]
+    );
+  }
+  
+  Widget buildOutDoorItem(double itemWidth, double itemHeight) {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      childAspectRatio: (itemWidth / itemHeight),
+      children: [
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "680 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+       
+      ]
     );
   }
 
-  const ImageCard(this.uri);
+
+  Widget buildIndoorItem(double itemWidth, double itemHeight) {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      childAspectRatio: (itemWidth / itemHeight),
+      children: [
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "680 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+      ]
+    );
+  }
+
+
+  Widget buildAllItem(double itemWidth, double itemHeight) {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      childAspectRatio: (itemWidth / itemHeight),
+      children: [
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "680 TK",
+        ),
+         MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        MostPopularCart(
+          imageID: "10.jpg",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+      ]
+    );
+  }
+
+
 }
+
+// class ImageCard extends StatelessWidget {
+//   final uri;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       margin: const EdgeInsets.fromLTRB(0, 0, 24, 24),
+//       child: Image.network(uri),
+//       clipBehavior: Clip.antiAliasWithSaveLayer,
+//       elevation: 0.0,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(16),
+//       ),
+//     );
+//   }
+
+//   const ImageCard(this.uri);
+// }
