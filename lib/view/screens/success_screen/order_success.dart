@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
-import 'package:green_dhaka/my_order/my_order.dart';
+import 'package:green_dhaka/view/screens/home/home_page.dart';
+import 'package:green_dhaka/view/screens/my_order/my_order.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 class OrderSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(
           height: 50,
           child: Align(
             alignment: Alignment.centerRight,
-                      child: Container(
+            child: Container(
               padding: EdgeInsets.only(right: 15),
               child: InkWell(
                 onTap: (){
-                  //TODO Do something 
+                  Route route = MaterialPageRoute(builder: (_)=> HomePage());
+                  Navigator.push(context, route);
                 },
                  child: Container(
                   height: 40,
@@ -48,15 +51,19 @@ class OrderSuccess extends StatelessWidget {
                   child: Text("Your order was placed successfully. For more details check my order. Thank You",textAlign: TextAlign.center,),
                 ),
                 SizedBox(height: 30,),
-                Container(
-                  width: 150,
-                  height: 48,
-                  child: FlatButton(
-                    color: MyColor.primary,
-                    onPressed: (){
-                      Route route = MaterialPageRoute(builder: (_)=> MyOrderPage());
-                      Navigator.push(context, route);
-                    }, 
+                InkWell(
+                    onTap: (){
+                        Route route = MaterialPageRoute(builder: (_)=> MyOrderPage());
+                        Navigator.push(context, route);
+                      }, 
+                    child: Container(
+                    width: 150,
+                    height: 48,
+                    padding: EdgeInsets.only(left: 10,right: 10),
+                    decoration: BoxDecoration(
+                        color: MyColor.primary,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

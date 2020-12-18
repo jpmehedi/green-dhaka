@@ -14,7 +14,7 @@ class CustomCart extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 120,
+              height: 100,
               width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -23,7 +23,7 @@ class CustomCart extends StatelessWidget {
               ),
             SizedBox(width: 15,),
             Container(
-              height: 140,
+              height: 100,
               width: MediaQuery.of(context).size.width / 2,
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,19 +31,19 @@ class CustomCart extends StatelessWidget {
                 children: [
                   Text(
                     "Belconi Box",
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                   ),
-               Text("Wooden belconi box with 5 type",overflow: TextOverflow.fade,),
-                  Text("500 TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                  Text("Wooden belconi box with 5 type",overflow: TextOverflow.ellipsis,),
+                  Text("500 TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                   Container(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         GestureDetector(
                           onTap: (){},
                           child: Container(
-                            width: 60,
-                            height: 40,
+                            width: 35,
+                            height: 35,
                             decoration: BoxDecoration(
                               color: MyColor.primary,
                               borderRadius: BorderRadius.circular(10)
@@ -51,15 +51,17 @@ class CustomCart extends StatelessWidget {
                             child: Icon(Icons.remove,color: MyColor.whitish,size: 24,),
                           )
                         ),
+                        SizedBox(width: 10,),
                         Padding(
                           padding: const EdgeInsets.only(left: 10,right: 10),
                           child: Text('2'),
                         ),
+                        SizedBox(width: 10,),
                         GestureDetector(
                           onTap: (){},
                           child: Container(
-                            width: 60,
-                            height: 40,
+                            width: 35,
+                            height: 35,
                             decoration: BoxDecoration(
                               color: MyColor.primary,
                               borderRadius: BorderRadius.circular(10)

@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_dhaka/constraint/color.dart';
-import 'package:green_dhaka/home/home_page.dart';
 import 'package:green_dhaka/login/login.dart';
 import 'package:green_dhaka/registration/registration.dart';
+import 'package:green_dhaka/view/screens/home/home_page.dart';
 
 class AppRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//      systemNavigationBarColor: MyColor.primary,
-//      statusBarColor: MyColor.primary,
-//      statusBarIconBrightness: Brightness.light,
-//      systemNavigationBarIconBrightness: Brightness.dark,
-//    ));
     SystemChrome.setPreferredOrientations(
       [
         DeviceOrientation.portraitUp,
@@ -37,10 +31,4 @@ class AppRoute extends StatelessWidget {
   }
 }
 
-//class AppRoutes {
-//  static Map<String, WidgetBuilder> configureRoute() {
-//    return {
-//      LoginScreen.PATH: (context) => LoginScreen(),
-//    };
-//  }
-//}
+

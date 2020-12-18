@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:green_dhaka/checkout/checkout.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/view/screens/checkout/checkout.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/custom_cart.dart';
 

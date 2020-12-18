@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:green_dhaka/profile/profile.dart';
+import 'package:green_dhaka/view/screens/profile/profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SideBar extends StatefulWidget {
   @override
@@ -24,11 +25,23 @@ class _SideBarState extends State<SideBar> {
       });
      });
     }
+
     @override
     void initState() {
     fetchProfileData();
     super.initState();
+    }
+
+
+  _launchURL() async {
+    const url = 'https://flutter.dev';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +174,7 @@ class _SideBarState extends State<SideBar> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   IconButton(
-                    onPressed: () {
-                      //TODO
-                    },
+                    onPressed: _launchURL,
                     icon: Icon(
                       FontAwesomeIcons.facebook,
                       //Icons.account_box,
@@ -182,7 +193,7 @@ class _SideBarState extends State<SideBar> {
                   ),
                   IconButton(
                     onPressed: () {
-                      //TODO
+                        // _launchURL(twitterURL);
                     },
                     icon: Icon(
                       FontAwesomeIcons.twitter,

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:green_dhaka/home/home_page.dart';
 import 'package:green_dhaka/registration/registration.dart';
+import 'package:green_dhaka/view/screens/home/home_page.dart';
 import 'package:green_dhaka/widget/common/input_field_builder.dart';
 import 'package:green_dhaka/widget/common/long_button_builder.dart';
 import 'package:green_dhaka/widget/common/social_button_builder.dart';
@@ -242,18 +242,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               LongButtonBuilder(
                                 buttonText: 'Continue',
                                 onPressed: ()async {
-                                    try{
-                                      final authUser = await _auth.signInWithEmailAndPassword(
-                                        email: _emailEditingController.text, 
-                                        password: _passwordEditingController.text
-                                      );
-                                      if(authUser != null){
+                                    // try{
+                                    //   final authUser = await _auth.signInWithEmailAndPassword(
+                                    //     email: _emailEditingController.text, 
+                                    //     password: _passwordEditingController.text
+                                    //   );
+                                    //   if(authUser != null){
                                       Route route = MaterialPageRoute(builder: (context) => HomePage());
                                       Navigator.push(context, route);
-                                    }
-                                    }catch(e){
-                                      print(e);
-                                    }
+                                    // }
+                                    // }catch(e){
+                                    //   print(e);
+                                    // }
                                 },
                               ),
                               SizedBox(

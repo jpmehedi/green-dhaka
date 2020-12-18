@@ -52,14 +52,36 @@ class _ProfileState extends State<Profile> {
                border: Border.all(color: MyColor.primary),
                borderRadius: BorderRadius.circular(5)
              ),
+            child: Center(
+              child: TextField ( 
+                style: TextStyle(
+                    //height: 2.0,
+                    color: Colors.black                  
+                ),
+                decoration: InputDecoration(  
+                  border: InputBorder.none,    
+                  hintText: 'Name',
+                  hintStyle: TextStyle(color: MyColor.textColor),
+                  contentPadding: EdgeInsets.only(left: 10)  
+                ),  
+              ),
+            ),
+          ),
+          
+           Container(  
+             margin: EdgeInsets.all(10),
+             decoration: BoxDecoration(
+               border: Border.all(color: MyColor.primary),
+               borderRadius: BorderRadius.circular(5)
+             ),
             child: TextField ( 
               style: TextStyle(
-                  height: 2.0,
+                  //height: 2.0,
                   color: Colors.black                  
                 ),
               decoration: InputDecoration(  
                 border: InputBorder.none,    
-                hintText: 'Name',
+                hintText: 'Address',
                 hintStyle: TextStyle(color: MyColor.textColor),
                 contentPadding: EdgeInsets.only(left: 10)  
               ),  
@@ -74,34 +96,14 @@ class _ProfileState extends State<Profile> {
              ),
             child: TextField ( 
               style: TextStyle(
-                  height: 2.0,
-                  color: Colors.black                  
-                ),
-              decoration: InputDecoration(  
-                border: InputBorder.none,    
-                hintText: 'Address',
-                hintStyle: TextStyle(color: MyColor.textColor),
-                contentPadding: EdgeInsets.only(left: 10,bottom: 10)  
-              ),  
-            ),
-          ),
-          
-           Container(  
-             margin: EdgeInsets.all(10),
-             decoration: BoxDecoration(
-               border: Border.all(color: MyColor.primary),
-               borderRadius: BorderRadius.circular(5)
-             ),
-            child: TextField ( 
-              style: TextStyle(
-                  height: 2.0,
+                  //height: 2.0,
                   color: Colors.black                  
                 ),
               decoration: InputDecoration(  
                 border: InputBorder.none,    
                 hintText: 'Brithday',
                 hintStyle: TextStyle(color: MyColor.textColor),
-                contentPadding: EdgeInsets.only(left: 10,bottom: 10)  
+                contentPadding: EdgeInsets.only(left: 10)  
               ),  
             ),
           ),
@@ -114,14 +116,14 @@ class _ProfileState extends State<Profile> {
              ),
             child: TextField ( 
               style: TextStyle(
-                  height: 2.0,
+                  //height: 2.0,
                   color: Colors.black                  
                 ),
               decoration: InputDecoration(  
                 border: InputBorder.none,    
                 hintText: 'Gender',
                 hintStyle: TextStyle(color: MyColor.textColor),
-                contentPadding: EdgeInsets.only(left: 10,bottom: 10)  
+                contentPadding: EdgeInsets.only(left: 10)  
               ),  
             ),
           ),
@@ -134,23 +136,22 @@ class _ProfileState extends State<Profile> {
              ),
             child: TextField ( 
               style: TextStyle(
-                  height: 2.0,
+                  // /height: 2.0,
                   color: Colors.black                  
                 ),
               decoration: InputDecoration(  
                 border: InputBorder.none,    
                 hintText: 'Phone',
                 hintStyle: TextStyle(color: MyColor.textColor),
-                contentPadding: EdgeInsets.only(left: 10,bottom: 10)  
+                contentPadding: EdgeInsets.only(left: 10)  
               ),  
             ),
-          ),
-          
+          ), 
 
          ],
        ),
              ),
-            Positioned(
+      Positioned(
       top: 30,
       left: 15,
        child: Container(

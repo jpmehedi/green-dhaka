@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
-class FavoritePage extends StatefulWidget {
+import 'package:green_dhaka/widget/common/custom_bottom_bar.dart';
+class MyOrderPage extends StatefulWidget {
   @override
-  _FavoritePageState createState() => _FavoritePageState();
+  _MyOrderPageState createState() => _MyOrderPageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _MyOrderPageState extends State<MyOrderPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-     appBar: CustomAppBar(
+    return BaseNavLayout(
+      appBar: CustomAppBar(
           height: 50,
           child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(left: 15),
+                  margin: EdgeInsets.only(left: 5),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: IconButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
                       icon: Icon(Icons.arrow_back),
                     ),
                   ),
@@ -37,22 +41,24 @@ class _FavoritePageState extends State<FavoritePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Favorite",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                  Text("My Orders",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                   SizedBox(height: 30,),
-                  FavoriteCartBuilder(),
-                  FavoriteCartBuilder(),
-              
+                  MyOrderCartBuilder(),
+                  MyOrderCartBuilder(),
+                  MyOrderCartBuilder(),
+                  MyOrderCartBuilder(),
                 ],
               ),
             ),
           ),
         ),
     );
+  
   }
 }
 
-class FavoriteCartBuilder extends StatelessWidget {
-  const FavoriteCartBuilder({
+class MyOrderCartBuilder extends StatelessWidget {
+  const MyOrderCartBuilder({
     Key key,
   }) : super(key: key);
 
@@ -63,7 +69,7 @@ class FavoriteCartBuilder extends StatelessWidget {
         Card(
           elevation: 3,
             child: Container(
-              height: 120,
+              height: 100,
               padding: EdgeInsets.all(10),
             child: Row(
               children: [
@@ -98,10 +104,13 @@ class FavoriteCartBuilder extends StatelessWidget {
                           children: [
                             Text("500 TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                             GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                Route route = MaterialPageRoute(builder: (_)=> ProductDetails());
+                                Navigator.push(context, route);
+                              },
                               child: Container(
-                                width: 48,
-                                height: 44,
+                                width: 40,
+                                height: 30,
                                 decoration: BoxDecoration(
                                   color: MyColor.primary,
                                   borderRadius: BorderRadius.circular(5)

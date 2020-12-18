@@ -11,7 +11,7 @@ class CustomAppBar extends PreferredSize {
   Widget build(BuildContext context) {
     return Container(
       height: preferredSize.height,
-      color: Color(0xffffffff),
+      color:  Colors.white,
       alignment: Alignment.center,
       child: child,
     );
