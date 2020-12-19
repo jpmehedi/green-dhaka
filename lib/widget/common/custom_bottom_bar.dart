@@ -18,7 +18,6 @@ class BaseNavLayout extends StatefulWidget {
 
 class _BaseNavLayoutState extends State<BaseNavLayout> {
   bool isSelecteted = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

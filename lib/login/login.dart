@@ -22,6 +22,30 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailEditingController = TextEditingController();
   TextEditingController _passwordEditingController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+  bool isLoading = false;
+
+  Future isLogin()async{
+    setState(() {
+      isLoading = true;
+    });
+    try{
+        final authUser = await _auth.signInWithEmailAndPassword(
+        email: _emailEditingController.text, 
+        password: _passwordEditingController.text
+      );
+      if(authUser != null){
+      Route route = MaterialPageRoute(builder: (context) => HomePage());
+      Navigator.push(context, route);
+    }
+    }catch(e){
+      print(e);
+    }
+      setState(() {
+      isLoading = false;
+    });
+          
+  } 
+                               
 
   @override
   void initState() {
@@ -32,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: !isLoading ? SingleChildScrollView(
           //reverse: true,
           child: Container(
             child: Column(
@@ -241,19 +265,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               LongButtonBuilder(
                                 buttonText: 'Continue',
-                                onPressed: ()async {
-                                    // try{
-                                    //   final authUser = await _auth.signInWithEmailAndPassword(
-                                    //     email: _emailEditingController.text, 
-                                    //     password: _passwordEditingController.text
-                                    //   );
-                                    //   if(authUser != null){
-                                      Route route = MaterialPageRoute(builder: (context) => HomePage());
-                                      Navigator.push(context, route);
-                                    // }
-                                    // }catch(e){
-                                    //   print(e);
-                                    // }
+                                onPressed: (){
+                                  isLogin();
                                 },
                               ),
                               SizedBox(
@@ -308,7 +321,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-        ),
+        ): Center(child: CircularProgressIndicator()),
       ),
     );
   }

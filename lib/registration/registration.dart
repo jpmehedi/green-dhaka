@@ -25,6 +25,32 @@ class _RegistrationState extends State<Registration> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   
+  bool isLoading = false; 
+   Future isRegistration()async{
+    setState(() {
+      isLoading = true;
+    });
+       try{
+        final newUser = await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+        if(newUser != null){  
+          saveProfileInfo();   
+          Navigator.pushNamed(context, HomePage.path);
+        }  
+      }on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+        }
+      } catch(e) {
+      print(e);
+      }
+      setState(() {
+      isLoading = false;
+    });
+          
+  } 
+  
    void saveProfileInfo(){
       final firestoreInstance = FirebaseFirestore.instance;
       firestoreInstance.collection("profileInfo").add({
@@ -49,7 +75,7 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: !isLoading ? SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Container(
             child: Padding(
@@ -211,23 +237,8 @@ class _RegistrationState extends State<Registration> {
                     Container(
                       child: LongButtonBuilder(
                         buttonText: 'Create an account',
-                        onPressed: ()async {
-                          saveProfileInfo();
-                          try{
-                            final newUser = await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
-                          
-                            if(newUser != null){     
-                              Navigator.pushNamed(context, HomePage.path);
-                            }  
-                          }on FirebaseAuthException catch (e) {
-                            if (e.code == 'weak-password') {
-                              print('The password provided is too weak.');
-                            } else if (e.code == 'email-already-in-use') {
-                              print('The account already exists for that email.');
-                            }
-                          } catch(e) {
-                          print(e);
-                          }
+                        onPressed: (){
+                         isRegistration();
                         },
                       ),
                     ),
@@ -272,7 +283,7 @@ class _RegistrationState extends State<Registration> {
               ),
             ),
           ),
-        ),
+        ) : Center(child: CircularProgressIndicator(),),
       ),
     );
   }

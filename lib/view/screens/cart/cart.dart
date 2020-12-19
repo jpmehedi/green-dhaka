@@ -51,8 +51,8 @@ class _CartPageState extends State<CartPage> {
               Route route = MaterialPageRoute(builder: (_)=> CheckoutPage());
               Navigator.push(context, route);
             },
-                      child: Container(
-                        color: MyColor.primary,
+            child: Container(
+              color: MyColor.primary,
               padding: EdgeInsets.only(top: 10,right: 15,left: 15,bottom: 10),
               height: 60,
                     child: Row(

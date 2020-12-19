@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:green_dhaka/view/screens/about/about.dart';
+import 'package:green_dhaka/view/screens/notification/notifiaction_screen.dart';
 import 'package:green_dhaka/view/screens/profile/profile.dart';
+import 'package:green_dhaka/view/screens/setting/setting_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SideBar extends StatefulWidget {
@@ -33,8 +36,26 @@ class _SideBarState extends State<SideBar> {
     }
 
 
-  _launchURL() async {
-    const url = 'https://flutter.dev';
+  _launchFacebook() async {
+    const url = 'https://facebook.com/vipmehedi';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  
+  _launchTwitter() async {
+    const url = 'https://twitter/jpmehedi';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  
+  _launchAppRating() async {
+    const url = 'https://play.google.com/store/apps';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -113,9 +134,21 @@ class _SideBarState extends State<SideBar> {
         SizedBox(
           height: 15,
         ),
+          GestureDetector(
+          onTap: () {
+            Route route = MaterialPageRoute(builder: (_)=> AboutScreen());
+            Navigator.push(context, route);
+          },
+          child: ListTile(
+            leading: Icon(Icons.account_box),
+            title: Text('About'),
+            trailing: Icon(Icons.navigate_next),
+          ),
+        ),
         GestureDetector(
           onTap: () {
-            //Navigator.pushNamed(context, DoctorList.id);
+             Route route = MaterialPageRoute(builder: (_)=> SettingScreen());
+            Navigator.push(context, route);
           },
           child: ListTile(
             leading: Icon(Icons.settings),
@@ -125,7 +158,8 @@ class _SideBarState extends State<SideBar> {
         ),
         GestureDetector(
           onTap: () {
-            //Navigator.pushNamed(context, PatientProfile.id);
+            Route route = MaterialPageRoute(builder: (_)=> NotificationScreen());
+            Navigator.push(context, route);
           },
           child: ListTile(
             leading: Icon(Icons.notifications_active),
@@ -134,9 +168,7 @@ class _SideBarState extends State<SideBar> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            // Navigator.pushNamed(context, EditProfile.id);
-          },
+          onTap:_launchAppRating,
           child: ListTile(
             leading: Icon(Icons.rate_review),
             title: Text('Rating'),
@@ -153,16 +185,7 @@ class _SideBarState extends State<SideBar> {
             trailing: Icon(Icons.navigate_next),
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            //Navigator.pushNamed(context, Appoinments.id);
-          },
-          child: ListTile(
-            leading: Icon(Icons.account_box),
-            title: Text('About'),
-            trailing: Icon(Icons.navigate_next),
-          ),
-        ),
+      
         SizedBox(
           height: 100,
         ),
@@ -174,10 +197,9 @@ class _SideBarState extends State<SideBar> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   IconButton(
-                    onPressed: _launchURL,
+                    onPressed: _launchFacebook,
                     icon: Icon(
                       FontAwesomeIcons.facebook,
-                      //Icons.account_box,
                       color: MyColor.primary,
                     ),
                   ),
@@ -192,9 +214,7 @@ class _SideBarState extends State<SideBar> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                        // _launchURL(twitterURL);
-                    },
+                    onPressed: _launchTwitter,
                     icon: Icon(
                       FontAwesomeIcons.twitter,
                       //Icons.account_box,

@@ -143,9 +143,7 @@ class _ContentSpaceState extends State<ContentSpace> {
               Flexible(
                 flex: 1,
                 child: getSelectedItems(itemWidth,itemHeight),
-              )
-              
-              
+              )   
             ],
           ),
         ),
@@ -153,17 +151,17 @@ class _ContentSpaceState extends State<ContentSpace> {
     );
   }
   
-  getSelectedItems<Widget>(itemWidth,itemHeight){
-    if(widget._selectedIndex == 0){
+  getSelectedItems<Widget>(itemWidth,itemHeight) {
+    if(widget._selectedIndex == 0) {
      return buildRooftopItem(itemWidth, itemHeight);
     }
-    if(widget._selectedIndex == 1){
+    if(widget._selectedIndex == 1) {
      return buildOutDoorItem(itemWidth, itemHeight);
     }
-     if(widget._selectedIndex == 2){
+     if(widget._selectedIndex == 2) {
      return buildIndoorItem(itemWidth, itemHeight);
     }
-     if(widget._selectedIndex == 3){
+     if(widget._selectedIndex == 3) {
      return buildAllItem(itemWidth, itemHeight);
     }
   }
