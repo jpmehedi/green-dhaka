@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/view/screens/address/address_screen.dart';
 import 'package:green_dhaka/view/screens/home/home_page.dart';
 import 'package:green_dhaka/view/screens/success_screen/order_success.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
@@ -123,11 +124,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         Text("Mehedi Hasan",style: TextStyle(color: MyColor.textColor,fontSize: 16,fontWeight: FontWeight.bold )),
                         Text("160/ A, Green Road, Dhaka",style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
                         Text("Bangladesh",style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
+                        Text("Mobile: 01790180825",style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
                       ],
                     ),
                   ),
                   RawMaterialButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Route route = MaterialPageRoute(builder: (_)=>AddAddressRoute());
+                      Navigator.push(context, route);
+                    },
                     child: Container(
                       height: 40,
                       width: 40,
@@ -142,6 +147,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ],
               ),
             ),
+        
           
             SizedBox(height: 15,),
             Column(
