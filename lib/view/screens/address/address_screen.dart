@@ -4,8 +4,6 @@ import 'package:green_dhaka/constraint/color.dart';
 
 
 class AddAddressRoute extends StatefulWidget {
-
-
   @override
   _AddAddressRouteState createState() => _AddAddressRouteState();
 }
@@ -14,75 +12,9 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
   final _formKey = GlobalKey<FormState>();
   var addressController = TextEditingController();
 
-  var selectedThana;
-  var selectedDistrict;
-  var selectedArea;
-  var areaID;
-  var currentDivisionSelectedValue;
-
-
-  var locations = [];
-  var districts = [];
-  var thanas = [];
-  var areas = [];
-  var tempselectedDistrict;
-  var tempselectedThana;
-  var tempselectedArea;
-
   @override
   void initState() {
     super.initState();
-    _copertinoDistricList();
-    _copertinoThanaList();
-    _copertinoAreaList();
-  }
-
-
-
-
-  Widget _copertinoDistricList() {
-    return CupertinoPicker(
-      itemExtent: 32,
-      scrollController: FixedExtentScrollController(initialItem: 2),
-      magnification: 1.2,
-      useMagnifier: true,
-      onSelectedItemChanged: (value) {
-        setState(() {
-          selectedDistrict = value;
-        });
-      },
-      children: getDropDownDistrictItems(),
-    );
-  }
-
-  Widget _copertinoThanaList() {
-    return CupertinoPicker(
-      itemExtent: 32,
-      scrollController: FixedExtentScrollController(initialItem: 2),
-      magnification: 1.2,
-      useMagnifier: true,
-      onSelectedItemChanged: (value) {
-        setState(() {
-          selectedThana = value;
-        });
-      },
-      children:getDropDownThanaItems()
-    );
-  }
-
-  Widget _copertinoAreaList() {
-    return CupertinoPicker(
-      itemExtent: 32,
-      scrollController: FixedExtentScrollController(initialItem: 2),
-      magnification: 1.2,
-      useMagnifier: true,
-      onSelectedItemChanged: (value) {
-        setState(() {
-          selectedArea = value;
-        });
-      },
-      children: getDropDownDivisionItems()
-    );
   }
 
   @override
@@ -133,47 +65,34 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                 ]),
                               ),
                               SizedBox(height: 10.0),
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 15, right: 15),
-                                  child: ButtonTheme(
-                                      height: 50,
-                                      minWidth: MediaQuery.of(context).size.width,
-                                      child: FlatButton(
-                                        onPressed: () async {
-                                          await showModalBottomSheet<int>(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return _copertinoDistricList();
-                                              });
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                            side: BorderSide(color: MyColor.seeGreen)),
-                                        child: Row(
+                               Container(
+                                width: (MediaQuery.of(context).size.width * 0.9),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: MyColor.primary),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                                child: TextFormField(
+                                  controller: addressController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'SolaimanLipi',
+                                      color: new Color(0xFF8c8c8c),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: MyColor.secondary),
+                                    ),
+                                  ),
+                              
+                                  onSaved: (String value) {
+                                    // addressController.text = value;
+                                  },
+                                ),
+                              ),
 
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: Container(
-                                              ),
-                                            ),
-
-                                            Expanded(
-                                              flex: 3,
-                                              child: Text(
-                                                 'e.g Dhaka',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                              ),
-                                            ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ))),
                               SizedBox(height: 20.0),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
@@ -190,32 +109,34 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                 ]),
                               ),
                               SizedBox(height: 10.0),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15),
-                                child: ButtonTheme(
-                                  height: 50,
-                                  minWidth: MediaQuery.of(context).size.width,
-                                  child: FlatButton(
-                                    onPressed: () async {
-                                      await showModalBottomSheet<int>(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return _copertinoThanaList();
-                                          });
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        side: BorderSide(color: MyColor.seeGreen)),
-                                    child: Text(
-                                      'e. g. Rampura',
-                                      style: TextStyle(
-                                        color: Colors.black
-                                           
-                                      ),
+                              Container(
+                                width: (MediaQuery.of(context).size.width * 0.9),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: MyColor.primary),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                                child: TextFormField(
+                                  controller: addressController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'SolaimanLipi',
+                                      color: new Color(0xFF8c8c8c),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: MyColor.secondary),
                                     ),
                                   ),
+                              
+                                  onSaved: (String value) {
+                                    // addressController.text = value;
+                                  },
                                 ),
                               ),
+
                               SizedBox(height: 20.0),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
@@ -232,32 +153,34 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                 ]),
                               ),
                               SizedBox(height: 10.0),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15),
-                                child: ButtonTheme(
-                                  height: 50,
-                                  minWidth: MediaQuery.of(context).size.width,
-                                  child: FlatButton(
-                                    onPressed: () async {
-                                      await showModalBottomSheet<int>(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return _copertinoAreaList();
-                                          });
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        side: BorderSide(color: MyColor.primary)),
-
-                                    child: Text(
-                                       'e. g. Malibag',
-                                      style: TextStyle(
-                                        color: Colors.black
-                                      ),
+                               Container(
+                                width: (MediaQuery.of(context).size.width * 0.9),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: MyColor.primary),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                                child: TextFormField(
+                                  controller: addressController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'SolaimanLipi',
+                                      color: new Color(0xFF8c8c8c),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: MyColor.secondary),
                                     ),
                                   ),
+                              
+                                  onSaved: (String value) {
+                                    // addressController.text = value;
+                                  },
                                 ),
                               ),
+
                               SizedBox(height: 20.0),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
@@ -290,12 +213,10 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                     hintStyle: TextStyle(
                                       fontFamily: 'SolaimanLipi',
                                       color: new Color(0xFF8c8c8c),
-                                      // fontSize: SizeConfig.safeBlockHorizontal * 4,
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(color: MyColor.secondary),
                                     ),
-                                    // hintText: LNG_REGISTRATION_P1_NAME
                                   ),
                               
                                   onSaved: (String value) {
@@ -335,12 +256,10 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                     hintStyle: TextStyle(
                                       fontFamily: 'SolaimanLipi',
                                       color: new Color(0xFF8c8c8c),
-                                      // fontSize: SizeConfig.safeBlockHorizontal * 4,
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(color: MyColor.secondary),
                                     ),
-                                    // hintText: LNG_REGISTRATION_P1_NAME
                                   ),
                               
                                   onSaved: (String value) {

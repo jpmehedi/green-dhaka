@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:green_dhaka/view/screens/about/about.dart';
+import 'package:green_dhaka/view/screens/address/address_screen.dart';
 import 'package:green_dhaka/view/screens/notification/notifiaction_screen.dart';
 import 'package:green_dhaka/view/screens/profile/profile.dart';
 import 'package:green_dhaka/view/screens/setting/setting_screen.dart';
@@ -177,7 +178,8 @@ class _SideBarState extends State<SideBar> {
         ),
         GestureDetector(
           onTap: () {
-            //Navigator.pushNamed(context, PatientPayment.id);
+              Route route = MaterialPageRoute(builder: (_)=> AddAddressRoute());
+            Navigator.push(context, route);
           },
           child: ListTile(
             leading: Icon(Icons.place),
