@@ -1,16 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/models/cart.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
 
-class ProductCart extends StatelessWidget {
+class ProductCart extends StatefulWidget {
   const ProductCart(
-      {Key key, @required this.imageID, this.productName, this.productPrice})
+      {Key key, @required this.imageID, this.productName, this.productPrice, this.product})
       : super(key: key);
 
   final String imageID;
   final String productName;
   final String productPrice;
+  final product;
+
+  @override
+  _ProductCartState createState() => _ProductCartState();
+}
+
+class _ProductCartState extends State<ProductCart> {
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +26,7 @@ class ProductCart extends StatelessWidget {
       elevation: 3,
       child: GestureDetector(
         onTap: (){
-          Route route = MaterialPageRoute(builder: (_)=> ProductDetails());
+          Route route = MaterialPageRoute(builder: (_)=> ProductDetails(product: widget.product,));
             Navigator.push(context, route);
         },
          child: Container(
@@ -34,8 +42,8 @@ class ProductCart extends StatelessWidget {
                     topLeft: Radius.circular(8.0),
                     topRight: Radius.circular(8.0),
                   ),
-                  child: Image.asset(
-                    'assets/images/flower$imageID',
+                  child: Image.network(
+                    widget.imageID,
                     width: 100,
                     height: 100,
                     fit: BoxFit.fill,
@@ -52,7 +60,7 @@ class ProductCart extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "$productName",
+                      "${widget.productName}",
                       style: TextStyle(
                           color: MyColor.primary,
                           fontSize: 18,
@@ -72,7 +80,7 @@ class ProductCart extends StatelessWidget {
                               ),
                             ),
                           Text(
-                            "$productPrice",
+                            "${widget.productPrice}",
                               style: TextStyle(
                                 color: MyColor.primary,
                                 fontSize: 16,

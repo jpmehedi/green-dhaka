@@ -27,20 +27,40 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _auth = FirebaseAuth.instance;
   var popularProducts = [];
+  var offerProducts = [];
   var isLoading = false;
 
-  final firestoreInstance = FirebaseFirestore.instance.collection("popular-product");
+  final firestoreInstance = FirebaseFirestore.instance;
 
   Future getPopularProducts() async {
 
     setState(() {
       isLoading  = true;
     });
-    firestoreInstance.get().then((querySnapshot) {
+    firestoreInstance.collection("popular-product").get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         print(result.data());
         setState(() {
           popularProducts.add(result.data());
+        });
+      });
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future getOfferProducts() async {
+    print('asdalsdas');
+    setState(() {
+      isLoading  = true;
+    });
+    firestoreInstance.collection("offer-product").get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        print(result.data());
+        setState(() {
+          offerProducts.add(result.data());
         });
       });
     });
@@ -57,6 +77,7 @@ class _HomePageState extends State<HomePage> {
       super.initState();
       getCurrentUser();
       getPopularProducts();
+      getOfferProducts();
     }
   void getCurrentUser(){
     final _user =  _auth.currentUser;
@@ -201,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             GestureDetector(
                                onTap: () {
-                                Route route = MaterialPageRoute(builder: (_)=>AllProductScreen()); 
+                                Route route = MaterialPageRoute(builder: (_)=> AllProductScreen()); 
                                 Navigator.push(context, route);
                               },
                               child: Container(
@@ -240,38 +261,36 @@ class _HomePageState extends State<HomePage> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
-                              OfferCartBuilder(
-                                imageID: '1',
-                                foodName: 'ITALIAN',
-                                onTap: (){
-                                  Route route = MaterialPageRoute(builder: (_)=>ProductDetails());
-                                  Navigator.push(context, route);
-                                },
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              OfferCartBuilder(
-                                imageID: '1',
-                                foodName: 'ITALIAN',
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              OfferCartBuilder(
-                                imageID: '1',
-                                foodName: 'ITALIAN',
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              OfferCartBuilder(
-                                imageID: '1',
-                                foodName: 'ITALIAN',
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
+                              // OfferCartBuilder(
+                              //   imageID: '1',
+                              //   foodName: 'ITALIAN',
+                              //   onTap: (){
+                              //     Route route = MaterialPageRoute(builder: (_)=>ProductDetails());
+                              //     Navigator.push(context, route);
+                              //   },
+                              // ),
+                              // SizedBox(
+                              //   width: 15,
+                              // ),
+
+                              ...offerProducts.map((item) {
+                                return Row(
+                                  children: [
+                                    OfferCartBuilder(
+                                      imageID: item['image'],
+                                      foodName: item['product-name'],
+                                      product: item,
+                                      onTap: (){
+                                        Route route = MaterialPageRoute(builder: (_)=> ProductDetails(product: item,));
+                                        Navigator.push(context, route);
+                                      },
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
                             ],
                           ),
                         ),

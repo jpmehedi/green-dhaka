@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
-
 class OfferCartBuilder extends StatelessWidget {
   const OfferCartBuilder({
     Key key,
     @required this.imageID,
     this.foodName,
+    this.product,
     this.onTap
   }) : super(key: key);
-
   final String imageID;
   final String foodName;
+  final product;
   final Function onTap;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,8 +25,8 @@ class OfferCartBuilder extends StatelessWidget {
                 bottomLeft: Radius.circular(8.0),
                 topLeft: Radius.circular(8.0),
               ),
-              child: Image.asset(
-                'assets/images/flower$imageID.png',
+              child: Image.network(
+                imageID,
                 width: 240,
                 height: 129,
                 fit: BoxFit.fill,
@@ -45,7 +44,7 @@ class OfferCartBuilder extends StatelessWidget {
                       fontSize: 14,
                     ),
                   ),
-                  Text("15%",
+                  Text(product['discount-persent'] + '%',
                       style: TextStyle(
                         color: MyColor.primary,
                         fontSize: 35,

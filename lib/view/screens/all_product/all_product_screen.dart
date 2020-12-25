@@ -3,6 +3,7 @@ import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/view/screens/cart/cart.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/product_cart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AllProductScreen extends StatefulWidget {
   @override
@@ -11,6 +12,43 @@ class AllProductScreen extends StatefulWidget {
 
 class _AllProductScreenState extends State<AllProductScreen> {
 
+  final firestoreInstance = FirebaseFirestore.instance;
+  var products = [];
+  var allProducts = [];
+  bool isLoading = false;
+
+  Future getAllProducts() async {
+
+    setState(() {
+      isLoading  = true;
+    });
+    firestoreInstance.collection("all-product").get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        print(result.data());
+        setState(() {
+          allProducts.add(result.data());
+        });
+        products = allProducts;
+      });
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getAllProducts();
+  }
+
+  searchProduts(query) {
+    var data = allProducts.where((item) => item['product-name'].toLowerCase().contains(query.toLowerCase())).toList();
+    setState(() {
+      products = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +124,9 @@ class _AllProductScreenState extends State<AllProductScreen> {
                         child: Container(
                           height: 44,
                           child: TextFormField(
+                            onChanged: (value) {
+                              searchProduts(value);
+                            },
                             decoration: new InputDecoration(
                               suffixIcon: Icon(Icons.search),
                               labelText: "Search...",
@@ -126,14 +167,15 @@ class _AllProductScreenState extends State<AllProductScreen> {
           mainAxisSpacing: 10,
           crossAxisCount: 2,
            childAspectRatio: (itemWidth / itemHeight),
-          children: List<Widget>.generate(16, (index) {
+          children: List<Widget>.generate(products.length, (index) {
             return GridTile(
-              child:Container(
+              child: Container(
                 height: 200,
                 child: ProductCart(
-                  imageID: '10.jpg',
-                  productName: "Sun flower",
-                  productPrice: "290 \$",
+                  imageID: products[index]['image'],
+                  productName: products[index]['product-name'],
+                  productPrice: products[index]['product-price'] + "\$",
+                  product: products[index]
               ),
               )
             );
