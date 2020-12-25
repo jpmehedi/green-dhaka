@@ -15,6 +15,7 @@ import 'package:green_dhaka/widget/common/custom_bottom_bar.dart';
 import 'package:green_dhaka/widget/common/most_popular_cart.dart';
 import 'package:green_dhaka/widget/common/offer_card_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   static final String path = "HomePage";
@@ -25,18 +26,47 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _auth = FirebaseAuth.instance;
+  var popularProducts = [];
+  var isLoading = false;
+
+  final firestoreInstance = FirebaseFirestore.instance.collection("popular-product");
+
+  Future getPopularProducts() async {
+
+    setState(() {
+      isLoading  = true;
+    });
+    firestoreInstance.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        print(result.data());
+        setState(() {
+          popularProducts.add(result.data());
+        });
+      });
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   User loggedInUser;
   @override
     void initState() {
       // TODO: implement initState
       super.initState();
       getCurrentUser();
+      getPopularProducts();
     }
   void getCurrentUser(){
     final _user =  _auth.currentUser;
     if(_user != null){
       loggedInUser = _user;
     }
+  }
+
+  getProducts() {
+
   }
 
   
@@ -107,7 +137,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Container(
+          child: !isLoading ?  Container(
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -429,26 +459,19 @@ class _HomePageState extends State<HomePage> {
                           childAspectRatio: (itemWidth / itemHeight),
                          // physics: ClampingScrollPhysics(),
                           children: <Widget>[
-                            MostPopularCart(
-                              imageID: '10.jpg',
-                              productName: "Sun flower",
-                              productPrice: "290 \$",
-                            ),
-                            MostPopularCart(
-                              imageID: '10.jpg',
-                              productName: "Sun flower",
-                              productPrice: "290 \$",
-                            ),
-                            MostPopularCart(
-                              imageID: '10.jpg',
-                              productName: "Sun flower",
-                              productPrice: "290 \$",
-                            ),
-                            MostPopularCart(
-                              imageID: '10.jpg',
-                              productName: "Sun flower",
-                              productPrice: "290 \$",
-                            ),
+                            // MostPopularCart(
+                            //   imageID: '10.jpg',
+                            //   productName: "Sun flower",
+                            //   productPrice: "290 \$",
+                            // ),
+                            ...popularProducts.map((item) {
+                              return MostPopularCart(
+                                imageID: item['image'],
+                                productName: item['product-name'],
+                                productPrice: item['product-price'],
+                                product: item
+                              );
+                            }).toList()
                           ],
                         ),
                       ),
@@ -482,7 +505,7 @@ class _HomePageState extends State<HomePage> {
                 
               ],
             ),
-          ),
+          ) :  CircularProgressIndicator() ,
         ),
       ),
     );

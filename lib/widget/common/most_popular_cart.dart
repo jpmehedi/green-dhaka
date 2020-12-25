@@ -5,12 +5,13 @@ import 'package:green_dhaka/product_details/product_details.dart';
 
 class MostPopularCart extends StatelessWidget {
   const MostPopularCart(
-      {Key key, @required this.imageID, this.productName, this.productPrice})
+      {Key key, @required this.imageID, this.productName, this.productPrice, this.product})
       : super(key: key);
 
   final String imageID;
   final String productName;
   final String productPrice;
+  final product;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class MostPopularCart extends StatelessWidget {
       elevation: 3,
       child: GestureDetector(
         onTap: (){
-          Route route = MaterialPageRoute(builder: (_)=>ProductDetails());
+          Route route = MaterialPageRoute(builder: (_)=>ProductDetails(product: product));
           Navigator.push(context, route);
         },
         child: Container(
@@ -33,8 +34,8 @@ class MostPopularCart extends StatelessWidget {
                     topLeft: Radius.circular(8.0),
                     topRight: Radius.circular(8.0),
                   ),
-                  child: Image.asset(
-                    'assets/images/flower$imageID',
+                  child: Image.network(
+                    imageID,
                     width: 120,
                     height: 140,
                     fit: BoxFit.fill,

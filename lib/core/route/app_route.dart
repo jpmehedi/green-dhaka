@@ -23,7 +23,7 @@ class AppRoute extends StatelessWidget {
       ),
       initialRoute: LoginScreen.PATH,
       routes: {
-        LoginScreen.PATH: (context) => LoginScreen(),
+        LoginScreen.PATH: (context) => HomePage(),
         Registration.PATH: (context) => Registration(),
         HomePage.path :(context) => HomePage()
       },
