@@ -13,6 +13,7 @@ import 'package:green_dhaka/widget/common/most_popular_cart.dart';
 import 'package:green_dhaka/widget/common/offer_card_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:green_dhaka/widget/common/product_cart.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -27,9 +28,41 @@ class _HomePageState extends State<HomePage> {
   var popularProducts = [];
   var offerProducts = [];
   var isLoading = false;
+  var _searchController = TextEditingController();
 
 
   final firestoreInstance = FirebaseFirestore.instance;
+  
+  var products = [];
+  var allProducts = [];
+
+  Future getAllProducts() async {
+
+    setState(() {
+      isLoading  = true;
+    });
+    firestoreInstance.collection("all-product").get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        print(result.data());
+        setState(() {
+          allProducts.add(result.data());
+        });
+        products = allProducts;
+      });
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+var data;
+  searchProduts(query) {
+    data = allProducts.where((item) => item['product-name'].toLowerCase().contains(query.toLowerCase())).toList();
+    setState(() {
+      products = data;
+    });
+  }
+
 
   Future getPopularProducts() async {
 
@@ -73,12 +106,13 @@ class _HomePageState extends State<HomePage> {
  
   @override
     void initState() {
-      // TODO: implement initState
       super.initState();
       getCurrentUser();
       getPopularProducts();
       getOfferProducts();
-    }
+       getAllProducts();
+}
+
   void getCurrentUser(){
     final _user =  _auth.currentUser;
     if(_user != null){
@@ -103,69 +137,63 @@ class _HomePageState extends State<HomePage> {
           child: SideBar(),
         ),
         appBar: CustomAppBar(
-          height: 50,
-          child: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 15),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: GestureDetector(
-                      child: Image.asset('assets/images/menu.png'),
-                      onTap: () => _scaffoldKey.currentState.openDrawer(),
-                    ),
-                  ),
-                ),
-                Stack(
-                  children: [
+          height: 120,
+          child: Column(
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(right: 15),
-                      child: Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: (){
-                              Route route = MaterialPageRoute(builder: (_)=> CartPage());
-                              Navigator.push(context, route);
-                            },
-                             child: Container(
-                              height: 40,
-                              width: 40,
-                              child: Image.asset('assets/images/cart.png'),
-                            ),
-                          ),
-                        ],
+                      margin: EdgeInsets.only(left: 15),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: GestureDetector(
+                          child: Image.asset('assets/images/menu.png'),
+                          onTap: () => _scaffoldKey.currentState.openDrawer(),
+                        ),
                       ),
                     ),
-                    Positioned(
-                      left: 25,
-                      top: 5,
-                       child: Container(
-                        width: 15,
-                        height: 15,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7.5),
-                          color: Colors.red
+                    Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 15),
+                          child: Row(
+                            children: <Widget>[
+                              InkWell(
+                                onTap: (){
+                                  Route route = MaterialPageRoute(builder: (_)=> CartPage());
+                                  Navigator.push(context, route);
+                                },
+                                 child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  child: Image.asset('assets/images/cart.png'),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Center(child: Text("0",style: TextStyle(fontSize: 10,color: MyColor.whitish),)),
-                      ),
-                    )
+                        Positioned(
+                          left: 25,
+                          top: 5,
+                           child: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.5),
+                              color: Colors.red
+                            ),
+                            child: Center(child: Text("0",style: TextStyle(fontSize: 10,color: MyColor.whitish),)),
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: !isLoading ?  Container(
-            child: Column(
-              children: <Widget>[
-        
-                SizedBox(
-                  height: 15,
-                ),
-                Padding(
+              ),
+              SizedBox(height: 20,),
+              Padding(
                   padding: EdgeInsets.only(left: 15, right: 15),
                   child: Row(
                     children: <Widget>[
@@ -174,8 +202,17 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 44,
                           child: TextFormField(
+                            controller: _searchController,
                             decoration: new InputDecoration(
-                              suffixIcon: Icon(Icons.search),
+                              suffixIcon: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: MyColor.primary,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Icon(Icons.search,color: MyColor.whitish,),
+                                ),
                               labelText: "Search...",
                               labelStyle: TextStyle(color: Colors.black),
                               border: new OutlineInputBorder(
@@ -184,12 +221,8 @@ class _HomePageState extends State<HomePage> {
                               ),
                               //fillColor: Colors.green
                             ),
-                            validator: (val) {
-                              if (val.length == 0) {
-                                return "Email cannot be empty";
-                              } else {
-                                return null;
-                              }
+                            onChanged: (value){
+                              searchProduts(value);
                             },
                             keyboardType: TextInputType.text,
                             style: new TextStyle(
@@ -202,9 +235,36 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+              
+            ],
+          ),
+        ),
+        body: data != null &&  _searchController.text.isNotEmpty? Container(
+        padding: EdgeInsets.only(left: 12, right: 15),
+        height: MediaQuery.of(context).size.height / 1.2,
+        child: GridView.count(
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisCount: 2,
+           childAspectRatio: (itemWidth / itemHeight),
+          children: List<Widget>.generate(products.length, (index) {
+            return GridTile(
+              child: Container(
+                height: 200,
+                child: ProductCart(
+                  imageID: products[index]['image'],
+                  productName: products[index]['product-name'],
+                  productPrice: products[index]['product-price'] + "\$",
+                  product: products[index]
+              ),
+              )
+            );
+          }),
+        ),
+         ) : SingleChildScrollView(
+          child: !isLoading ?  Container(
+            child: Column(
+              children: <Widget>[
                 Container(
                   child: Column(
                     children: <Widget>[
@@ -514,35 +574,48 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+
 class Reviews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-                       leading: Image.asset('assets/images/profile'
-                           '.png'),
-                       title: Text("Mehedi Hasan"),
-                       subtitle: Text(
-                         "Nice app and well developed by the team.",
-                         overflow: TextOverflow.ellipsis,
-                       ),
-                       trailing: Container(
-                           width: 50,
-                           child: Row(
-                             children: <Widget>[
-                               Text(
-                                 "5",
-                                 style: TextStyle(
-                                   fontSize: 18,
-                                   color: MyColor.primary,
+    return Row(
+      children: [
+        Expanded(
+                  child: ListTile(
+                             leading: Image.asset('assets/images/profile'
+                                 '.png'),
+                             title: Text("Mehedi Hasan"),
+                             subtitle: Text(
+                               "Nice app and well developed by the team.",
+                               overflow: TextOverflow.ellipsis,
+                             ),
+                             trailing: Container(
+                                 width: 40,
+                                 height: 25,
+                                 decoration: BoxDecoration(
+                                   color: MyColor.secondary,
+                                   borderRadius: BorderRadius.circular(15) 
                                  ),
-                               ),
-                               Icon(
-                                 Icons.star,
-                                 size: 22,
-                                 color: MyColor.primary,
-                               ),
-                             ],
-                           )),
-                     );
+                                 child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.center,
+                                   children: <Widget>[
+                                     Text(
+                                       "5",
+                                       style: TextStyle(
+                                         fontSize: 18,
+                                         color: MyColor.primary,
+                                       ),
+                                     ),
+                                     Icon(
+                                       Icons.star,
+                                       size: 18,
+                                       color: MyColor.primary,
+                                     ),
+                                   ],
+                                 )),
+                           ),
+        ),
+      ],
+    );
   }
 }

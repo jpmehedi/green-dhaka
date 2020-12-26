@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/view/screens/cart/cart.dart';
 import 'package:green_dhaka/widget/common/most_popular_cart.dart';
 
 class PlantScreen extends StatefulWidget {
@@ -123,14 +124,42 @@ class _ContentSpaceState extends State<ContentSpace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {},
-                  ),
-                   Container(
-                        height: 40,
-                        width: 40,
-                        child: Image.asset('assets/images/cart.png'),
+                   Container(      
+                      child: Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 15),
+                          child: Row(
+                            children: <Widget>[
+                              InkWell(
+                                onTap: (){
+                                  Route route = MaterialPageRoute(builder: (_)=> CartPage());
+                                  Navigator.push(context, route);
+                                },
+                                 child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  child: Image.asset('assets/images/cart.png'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          left: 25,
+                          top: 5,
+                           child: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.5),
+                              color: Colors.red
+                            ),
+                            child: Center(child: Text("0",style: TextStyle(fontSize: 10,color: MyColor.whitish),)),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

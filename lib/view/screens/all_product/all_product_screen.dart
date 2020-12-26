@@ -65,7 +65,6 @@ class _AllProductScreenState extends State<AllProductScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: 15),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: IconButton(
