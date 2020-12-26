@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/view/screens/all_product/all_product_screen.dart';
 import 'package:green_dhaka/view/screens/cart/cart.dart';
 import 'package:green_dhaka/view/screens/categories/plants.dart';
 import 'package:green_dhaka/view/screens/categories/seeds.dart';
-import 'package:green_dhaka/view/screens/favorite/favorite.dart';
-import 'package:green_dhaka/view/screens/my_order/my_order.dart';
 import 'package:green_dhaka/view/screens/sidebar/sidebar.dart';
 import 'package:green_dhaka/widget/common/catagory_builder.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
@@ -16,6 +13,7 @@ import 'package:green_dhaka/widget/common/most_popular_cart.dart';
 import 'package:green_dhaka/widget/common/offer_card_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class HomePage extends StatefulWidget {
   static final String path = "HomePage";
@@ -29,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   var popularProducts = [];
   var offerProducts = [];
   var isLoading = false;
+
 
   final firestoreInstance = FirebaseFirestore.instance;
 
@@ -71,6 +70,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   User loggedInUser;
+ 
   @override
     void initState() {
       // TODO: implement initState
@@ -161,6 +161,7 @@ class _HomePageState extends State<HomePage> {
           child: !isLoading ?  Container(
             child: Column(
               children: <Widget>[
+        
                 SizedBox(
                   height: 15,
                 ),
@@ -261,18 +262,6 @@ class _HomePageState extends State<HomePage> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
-                              // OfferCartBuilder(
-                              //   imageID: '1',
-                              //   foodName: 'ITALIAN',
-                              //   onTap: (){
-                              //     Route route = MaterialPageRoute(builder: (_)=>ProductDetails());
-                              //     Navigator.push(context, route);
-                              //   },
-                              // ),
-                              // SizedBox(
-                              //   width: 15,
-                              // ),
-
                               ...offerProducts.map((item) {
                                 return Row(
                                   children: [
@@ -476,13 +465,7 @@ class _HomePageState extends State<HomePage> {
                           crossAxisSpacing: 15,
                           mainAxisSpacing: 15,
                           childAspectRatio: (itemWidth / itemHeight),
-                         // physics: ClampingScrollPhysics(),
                           children: <Widget>[
-                            // MostPopularCart(
-                            //   imageID: '10.jpg',
-                            //   productName: "Sun flower",
-                            //   productPrice: "290 \$",
-                            // ),
                             ...popularProducts.map((item) {
                               return MostPopularCart(
                                 imageID: item['image'],

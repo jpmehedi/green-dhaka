@@ -17,18 +17,18 @@ class OfferCartBuilder extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
           child: Card(
-        elevation: 5,
+        elevation: 3,
         child: Row(
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8.0),
-                topLeft: Radius.circular(8.0),
+                bottomLeft: Radius.circular(5.0),
+                topLeft: Radius.circular(5.0),
               ),
               child: Image.network(
                 imageID,
                 width: 240,
-                height: 129,
+                height: 132,
                 fit: BoxFit.fill,
               ),
             ),

@@ -27,16 +27,15 @@ class MostPopularCart extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 10,),
               Container(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8.0),
-                    topRight: Radius.circular(8.0),
-                  ),
+                  // borderRadius: BorderRadius.only(
+                  //   topLeft: Radius.circular(8.0),
+                  //   topRight: Radius.circular(8.0),
+                  // ),
                   child: Image.network(
                     imageID,
-                    width: 120,
+                    width: MediaQuery.of(context).size.width,
                     height: 140,
                     fit: BoxFit.fill,
                   ),
