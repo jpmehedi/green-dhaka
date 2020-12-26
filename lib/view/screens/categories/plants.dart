@@ -124,8 +124,8 @@ class _ContentSpaceState extends State<ContentSpace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                   Container(      
-                      child: Stack(
+                   Container(
+                        child: Stack(
                       children: [
                         Container(
                           padding: EdgeInsets.only(right: 15),
