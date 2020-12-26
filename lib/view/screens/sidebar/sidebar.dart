@@ -8,6 +8,7 @@ import 'package:green_dhaka/view/screens/address/address_screen.dart';
 import 'package:green_dhaka/view/screens/notification/notifiaction_screen.dart';
 import 'package:green_dhaka/view/screens/profile/profile.dart';
 import 'package:green_dhaka/view/screens/setting/setting_screen.dart';
+import 'package:green_dhaka/view/screens/terms/terms_condition.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SideBar extends StatefulWidget {
@@ -56,7 +57,7 @@ class _SideBarState extends State<SideBar> {
   }
   
   _launchAppRating() async {
-    const url = 'https://play.google.com/store/apps';
+    const url = 'https://play.google.com/store/apps/details?id=com.teacapps.barcodescanner.pro';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -169,6 +170,17 @@ class _SideBarState extends State<SideBar> {
           ),
         ),
         GestureDetector(
+          onTap: () {
+              Route route = MaterialPageRoute(builder: (_)=> TermsAndCondition());
+            Navigator.push(context, route);
+          },
+          child: ListTile(
+            leading: Icon(Icons.privacy_tip),
+            title: Text('Terms & Conditions'),
+            trailing: Icon(Icons.navigate_next),
+          ),
+        ),
+        GestureDetector(
           onTap:_launchAppRating,
           child: ListTile(
             leading: Icon(Icons.rate_review),
@@ -176,17 +188,7 @@ class _SideBarState extends State<SideBar> {
             trailing: Icon(Icons.navigate_next),
           ),
         ),
-        GestureDetector(
-          onTap: () {
-              Route route = MaterialPageRoute(builder: (_)=> AddAddressRoute());
-            Navigator.push(context, route);
-          },
-          child: ListTile(
-            leading: Icon(Icons.place),
-            title: Text('Places'),
-            trailing: Icon(Icons.navigate_next),
-          ),
-        ),
+ 
       
         SizedBox(
           height: 100,
