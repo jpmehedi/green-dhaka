@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/controllers/cart.controller.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/view/screens/all_product/all_product_screen.dart';
 import 'package:green_dhaka/view/screens/cart/cart.dart';
@@ -14,6 +15,7 @@ import 'package:green_dhaka/widget/common/offer_card_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:green_dhaka/widget/common/product_cart.dart';
+import 'package:get/get.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -24,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final cartConntroller = Get.put(CartController());
   final _auth = FirebaseAuth.instance;
   var popularProducts = [];
   var offerProducts = [];
@@ -184,7 +187,11 @@ var data;
                               borderRadius: BorderRadius.circular(7.5),
                               color: Colors.red
                             ),
-                            child: Center(child: Text("0",style: TextStyle(fontSize: 10,color: MyColor.whitish),)),
+                            child: Center(
+                              child: Obx(() => 
+                                Text('${cartConntroller.carts.length.toString()}', style: TextStyle(fontSize: 10,color: MyColor.whitish),)
+                              ),
+                            ),
                           ),
                         )
                       ],

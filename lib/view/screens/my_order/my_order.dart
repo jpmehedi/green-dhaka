@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
@@ -9,6 +10,36 @@ class MyOrderPage extends StatefulWidget {
 }
 
 class _MyOrderPageState extends State<MyOrderPage> {
+  final firestoreInstance = FirebaseFirestore.instance;
+  var orders = [];
+
+  Future getOrders() async {
+
+    // setState(() {
+    //   isLoading  = true;
+    // });
+    firestoreInstance.collection("order-list").get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        print(result.data());
+        setState(() {
+          orders.add(result.data());
+          print(result.id);
+        });
+      });
+    });
+
+    // setState(() {
+    //   isLoading = false;
+    // });
+  }
+
+  @override
+  initState() {
+    super.initState();
+
+    getOrders();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseNavLayout(
@@ -43,10 +74,9 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 children: [
                   Text("My Orders",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                   SizedBox(height: 30,),
-                  MyOrderCartBuilder(),
-                  MyOrderCartBuilder(),
-                  MyOrderCartBuilder(),
-                  MyOrderCartBuilder(),
+                  ...orders.map((e) {
+                    return MyOrderCartBuilder(order: e,);
+                  })
                 ],
               ),
             ),
@@ -58,9 +88,8 @@ class _MyOrderPageState extends State<MyOrderPage> {
 }
 
 class MyOrderCartBuilder extends StatelessWidget {
-  const MyOrderCartBuilder({
-    Key key,
-  }) : super(key: key);
+  final order;
+  MyOrderCartBuilder({this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +131,7 @@ class MyOrderCartBuilder extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("500 TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                            Text("${order['total']}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
                             GestureDetector(
                               onTap: (){
                                 Route route = MaterialPageRoute(builder: (_)=> ProductDetails());
