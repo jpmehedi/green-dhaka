@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/controllers/cart.controller.dart';
 import 'package:green_dhaka/models/cart.dart';
+import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/view/screens/checkout/checkout.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/custom_cart.dart';
+import 'package:get/get.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -12,6 +15,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
 
+    final cartConntroller = Get.put(CartController());
     var cartProducts = Cart().getCart;
   
   getCartProducts() {
@@ -51,17 +55,43 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(right: 15),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        height: 40,
-                        width: 40,
-                        child: Image.asset('assets/images/cart.png'),
+                Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: (){
+                              //TODO cart functinonality
+                            },
+                             child: Container(
+                              height: 40,
+                              width: 40,
+                              child: Image.asset('assets/images/cart.png'),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Positioned(
+                      left: 25,
+                      top: 5,
+                       child: Container(
+                        width: 15,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7.5),
+                          color: Colors.red
+                        ),
+                        child: Center(child: 
+                          Obx(() => 
+                            Text('${cartConntroller.carts.length.toString()}',style: TextStyle(fontSize: 10,color: MyColor.whitish),)
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
@@ -84,8 +114,8 @@ class _CartPageState extends State<CartPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Total',style: TextStyle(fontSize: 16,fontWeight: FontWeight.normal,color: MyColor.whitish)),
-                            Text(getTotal(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),),
+                            Text('Total', style: TextStyle(fontSize: 16,fontWeight: FontWeight.normal,color: MyColor.whitish)),
+                            Text(getTotal(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),),
                           ],
                         ),
                         Container(
@@ -119,79 +149,85 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
                 SizedBox(height: 20,),
-                ...cartProducts.map((item) {
-                  return Card(
-                  elevation: 3,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                ...cartConntroller.carts.map((item) {
+                  return GestureDetector(
+                    onTap: () {
+                      Route route = MaterialPageRoute(builder: (_)=> ProductDetails(product: item,));
+                      Navigator.push(context, route);
+                    },
+                    child: Card(
+                    elevation: 3,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Image.network(item['image']),
                               ),
-                              child: Image.network(item['image']),
-                            ),
-                            SizedBox(width: 15,),
-                            Container(
-                              height: 100,
-                              width: MediaQuery.of(context).size.width / 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    item['product-name'],
-                                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
-                                  ),
-                                  Text(item['product-details'],overflow: TextOverflow.ellipsis,),
-                                  Text(item['total-price'].toString() + " TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                              color: MyColor.primary,
-                                              borderRadius: BorderRadius.circular(10)
-                                            ),
-                                            child: Icon(Icons.remove,color: MyColor.whitish,size: 24,),
-                                          )
-                                        ),
-                                        SizedBox(width: 10,),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 10,right: 10),
-                                          child: Text(item['quantity'].toString()),
-                                        ),
-                                        SizedBox(width: 10,),
-                                        GestureDetector(
-                                          onTap: (){},
-                                          child: Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                              color: MyColor.primary,
-                                              borderRadius: BorderRadius.circular(10)
-                                            ),
-                                            child: Icon(Icons.add,color: MyColor.whitish,size: 24,),
-                                          )
-                                        )
-                                      ],
+                              SizedBox(width: 15,),
+                              Container(
+                                height: 100,
+                                width: MediaQuery.of(context).size.width / 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      item['product-name'],
+                                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                                     ),
-                                  ),
-                                ],
+                                    Text(item['product-details'],overflow: TextOverflow.ellipsis,),
+                                    Text(item['total-price'].toString() + " TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                                    Container(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: Container(
+                                              width: 35,
+                                              height: 35,
+                                              decoration: BoxDecoration(
+                                                color: MyColor.primary,
+                                                borderRadius: BorderRadius.circular(10)
+                                              ),
+                                              child: Icon(Icons.remove,color: MyColor.whitish,size: 24,),
+                                            )
+                                          ),
+                                          SizedBox(width: 10,),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10,right: 10),
+                                            child: Text(item['quantity'].toString()),
+                                          ),
+                                          SizedBox(width: 10,),
+                                          GestureDetector(
+                                            onTap: (){},
+                                            child: Container(
+                                              width: 35,
+                                              height: 35,
+                                              decoration: BoxDecoration(
+                                                color: MyColor.primary,
+                                                borderRadius: BorderRadius.circular(10)
+                                              ),
+                                              child: Icon(Icons.add,color: MyColor.whitish,size: 24,),
+                                            )
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    );
+                  );
                 }).toList()
               
               ],

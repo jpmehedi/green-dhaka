@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/controllers/cart.controller.dart';
 import 'package:green_dhaka/view/screens/cart/cart.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/product_cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 class AllProductScreen extends StatefulWidget {
   @override
@@ -11,7 +13,7 @@ class AllProductScreen extends StatefulWidget {
 }
 
 class _AllProductScreenState extends State<AllProductScreen> {
-
+  final cartConntroller = Get.put(CartController());
   final firestoreInstance = FirebaseFirestore.instance;
   var products = [];
   var allProducts = [];
@@ -105,7 +107,11 @@ class _AllProductScreenState extends State<AllProductScreen> {
                               borderRadius: BorderRadius.circular(7.5),
                               color: Colors.red
                             ),
-                            child: Center(child: Text("0",style: TextStyle(fontSize: 10,color: MyColor.whitish),)),
+                            child: Center(
+                              child: Obx(() => 
+                                Text('${cartConntroller.carts.length.toString()}', style: TextStyle(fontSize: 10,color: MyColor.whitish),)
+                              ),
+                            ),
                           ),
                         )
                       ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/controllers/cart.controller.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/custom_bottom_bar.dart';
@@ -9,6 +11,8 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+  final cartConntroller = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     return BaseNavLayout(
@@ -43,9 +47,8 @@ class _FavoritePageState extends State<FavoritePage> {
                 children: [
                   Text("Favorites",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                   SizedBox(height: 30,),
-                FavoriteCartBuilder(),
-                  FavoriteCartBuilder(),
-                    FavoriteCartBuilder(),
+                  ...cartConntroller.wishlist.map((element) => FavoriteCartBuilder(product: element)).toList()
+                  
                 ],
               ),
             ),
@@ -57,79 +60,90 @@ class _FavoritePageState extends State<FavoritePage> {
 }
 
 class FavoriteCartBuilder extends StatelessWidget {
-  const FavoriteCartBuilder({
-    Key key,
-  }) : super(key: key);
+  FavoriteCartBuilder({this.product});
+  final product;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          elevation: 3,
-            child: Container(
-              height: 100,
-              padding: EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                   child: Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Image.asset("assets/images/flower10.jpg"),
-                    ),
-                ),
-                SizedBox(width: 15,),
-                Expanded(
-                  flex: 8,
-                    child: Container(
-                    height: 120,
-                    width: MediaQuery.of(context).size.width / 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Belconi Box",
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),
+    return GestureDetector(
+      onTap: () {
+        Route route = MaterialPageRoute(builder: (_)=> ProductDetails(product: product,));
+        Navigator.push(context, route);
+      },
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Route route = MaterialPageRoute(builder: (_)=> ProductDetails(product: product,));
+              Navigator.push(context, route);
+            },
+            child: Card(
+              elevation: 3,
+                child: Container(
+                  height: 100,
+                  padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                       child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        Text("Wooden belconi box with 5 type",overflow: TextOverflow.ellipsis,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("500 TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
-                            GestureDetector(
-                              onTap: (){
-                                Route route = MaterialPageRoute(builder: (_)=> ProductDetails());
-                                Navigator.push(context, route);
-                              },
-                              child: Container(
-                                width: 40,
-                                height: 30,
-                                decoration: BoxDecoration(                           
-                                  color: MyColor.primary,
-                                  borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Icon(Icons.arrow_forward_ios,color: MyColor.whitish,size: 24,),
-                              )
-                            ),
-                          ],
-                        )
-
-                      ],
+                        child: Image.network(product['image']),
+                        ),
                     ),
-                  ),
-                ),  
-              ],
+                    SizedBox(width: 15,),
+                    Expanded(
+                      flex: 8,
+                        child: Container(
+                        height: 120,
+                        width: MediaQuery.of(context).size.width / 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              product['product-name'],
+                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),
+                            ),
+                            Text(product['product-details'],overflow: TextOverflow.ellipsis,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(product['product-price'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+                                GestureDetector(
+                                  onTap: (){
+                                    Route route = MaterialPageRoute(builder: (_)=> ProductDetails());
+                                    Navigator.push(context, route);
+                                  },
+                                  child: Container(
+                                    width: 40,
+                                    height: 30,
+                                    decoration: BoxDecoration(                           
+                                      color: MyColor.primary,
+                                      borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Icon(Icons.arrow_forward_ios,color: MyColor.whitish,size: 24,),
+                                  )
+                                ),
+                              ],
+                            )
+
+                          ],
+                        ),
+                      ),
+                    ),  
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 10,),
-      ],
+          SizedBox(height: 10,),
+        ],
+      ),
     );
   }
 }

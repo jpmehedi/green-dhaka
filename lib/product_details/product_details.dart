@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:green_dhaka/controllers/cart.controller.dart';
 import 'package:green_dhaka/models/cart.dart';
 import 'package:green_dhaka/view/screens/checkout/checkout.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 class ProductDetails extends StatefulWidget {
   final product;
@@ -14,6 +16,8 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  final cartConntroller = Get.put(CartController());
+
   int itemCount = 0;
   increementItem(){
     setState(() {
@@ -29,11 +33,27 @@ class _ProductDetailsState extends State<ProductDetails> {
   addTocart() {
     var data = widget.product;
     if (itemCount > 0) {
-      Cart().addToCart(data, itemCount);
+      cartConntroller.addtoCart(data, itemCount);
+      // Cart().addToCart(data, itemCount);
     }
   }
   @override
+  initState() {
+    super.initState();
+    setCartdata();
+  }
+
+  setCartdata() {
+    var cartProduct = cartConntroller.getCartProduct(widget.product);
+
+    if (cartProduct != null) {
+      itemCount = cartProduct['quantity'];
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(  
@@ -74,7 +94,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ],
                       ),
                     ),
-                       Positioned(
+                    Positioned(
                       left: 25,
                       top: 5,
                        child: Container(
@@ -84,7 +104,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                           borderRadius: BorderRadius.circular(7.5),
                           color: Colors.red
                         ),
-                        child: Center(child: Text('${context.watch<Cart>().cartCount.toString()}',style: TextStyle(fontSize: 10,color: MyColor.whitish),)),
+                        child: Center(child: 
+                          Obx(() => 
+                            Text('${cartConntroller.carts.length.toString()}',style: TextStyle(fontSize: 10,color: MyColor.whitish),)
+                          ),
+                        ),
                       ),
                     )
                   ],
@@ -120,7 +144,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ],
                     ),
                   ),
-                  Text("580 TK",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),),
+                  Text("${(int.parse(widget.product['product-price']) * itemCount).toString()}",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),),
                 ],
               ),
             ),
@@ -248,7 +272,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                            ]
                          ),
-                         child: Center(child: Icon(Icons.favorite,color: Colors.pink,size: 30,)),
+                         child: Center(child: InkWell(
+                            onTap: () {
+                              cartConntroller.addtoWishlist(widget.product);
+                            },
+                            child: Icon(Icons.favorite, color: Colors.pink,size: 30,))
+                            ),
                           ),
                       )
                 ],
