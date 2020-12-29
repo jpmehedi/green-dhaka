@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
-class Profile extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   @override
-  _ProfileState createState() => _ProfileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _EditProfileState extends State<EditProfile> {
   var nameEditingController = TextEditingController();
   var addressEditingController = TextEditingController();
   var birthDayEditingController = TextEditingController();
@@ -27,28 +27,6 @@ class _ProfileState extends State<Profile> {
         print(value.id);
       });
     }
-    // void updateUserProfile(){
-    //   final firestoreInstance = FirebaseFirestore.instance;
-    //   firestoreInstance.collection("user-profile").doc(userProfile[0]['name']).update({
-    //     'name' : nameEditingController.text,
-    //     'address': addressEditingController.text,
-    //     'birthday': birthDayEditingController.text,
-    //     'gender':genderEditingController.text,
-    //     'phone':phoneEditingController.text
-    //   }).then((value){
-     
-    //   });
-    // }
-
-    // userUpdate(){
-    //   if(userProfile[0]['name'] != null){
-    //     print("fanf");
-    //     updateUserProfile();
-    //   }else {
-    //     print("alf,a");
-    //     saveUserProfile();
-    //   }
-    // }
     
   final firestoreInstance = FirebaseFirestore.instance;
   Future getUserProfile() async {
@@ -56,7 +34,7 @@ class _ProfileState extends State<Profile> {
     setState(() {
       isLoading  = true;
     });
-    firestoreInstance.collection("user-profile").get().then((querySnapshot) {
+    firestoreInstance.collection("offer-product").get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         print(result.data());
         setState(() {
@@ -132,8 +110,8 @@ class _ProfileState extends State<Profile> {
                           color: Colors.black                  
                       ),
                       decoration: InputDecoration(  
-                        border: InputBorder.none,  
-                        hintText: userProfile != null ? userProfile[0]['name']:'Name',
+                        border: InputBorder.none,    
+                        hintText: 'Name',
                         hintStyle: TextStyle(color: MyColor.textColor),
                         contentPadding: EdgeInsets.only(left: 10)  
                       ),  
@@ -158,7 +136,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     decoration: InputDecoration(  
                       border: InputBorder.none,    
-                      hintText: userProfile != null ? userProfile[0]['address']:'Address',
+                      hintText: 'Address',
                       hintStyle: TextStyle(color: MyColor.textColor),
                       contentPadding: EdgeInsets.only(left: 10)  
                     ),  
@@ -182,7 +160,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     decoration: InputDecoration(  
                       border: InputBorder.none,    
-                      hintText: userProfile != null ? userProfile[0]['birthday']:'BirthDay',
+                      hintText: 'Brithday',
                       hintStyle: TextStyle(color: MyColor.textColor),
                       contentPadding: EdgeInsets.only(left: 10)  
                     ),  
@@ -206,7 +184,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     decoration: InputDecoration(  
                       border: InputBorder.none,    
-                      hintText: userProfile != null ? userProfile[0]['gender']:'Gender',
+                      hintText: 'Gender',
                       hintStyle: TextStyle(color: MyColor.textColor),
                       contentPadding: EdgeInsets.only(left: 10)  
                     ),  
@@ -230,7 +208,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     decoration: InputDecoration(  
                       border: InputBorder.none,    
-                      hintText: userProfile != null ? userProfile[0]['phone']:'Phone',
+                      hintText: 'Phone',
                       hintStyle: TextStyle(color: MyColor.textColor),
                       contentPadding: EdgeInsets.only(left: 10)  
                     ),  
