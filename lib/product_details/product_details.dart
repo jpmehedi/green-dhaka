@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/controllers/cart.controller.dart';
 import 'package:green_dhaka/models/cart.dart';
+import 'package:green_dhaka/view/screens/cart/cart.dart';
 import 'package:green_dhaka/view/screens/checkout/checkout.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -121,7 +122,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           child: InkWell(
             onTap: (){
               addTocart();
-              Route route = MaterialPageRoute(builder: (_)=> CheckoutPage());
+              Route route = MaterialPageRoute(builder: (_)=> CartPage());
               Navigator.push(context, route);
             },
             child: Container(

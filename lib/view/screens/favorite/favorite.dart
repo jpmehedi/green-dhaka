@@ -78,20 +78,16 @@ class FavoriteCartBuilder extends StatelessWidget {
               Navigator.push(context, route);
             },
             child: Card(
-              elevation: 3,
+              elevation: 2,
                 child: Container(
-                  height: 100,
-                  padding: EdgeInsets.all(10),
+                  height: 80,
                 child: Row(
                   children: [
                     Expanded(
                       flex: 3,
                        child: Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        height: 100,
+                        width: 100,
                         child: Image.network(product['image']),
                         ),
                     ),
@@ -99,36 +95,22 @@ class FavoriteCartBuilder extends StatelessWidget {
                     Expanded(
                       flex: 8,
                         child: Container(
-                        height: 120,
+                        height: 80,
+                        padding: EdgeInsets.only(),
                         width: MediaQuery.of(context).size.width / 2,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
                               product['product-name'],
-                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),
+                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
                             ),
                             Text(product['product-details'],overflow: TextOverflow.ellipsis,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(product['product-price'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
-                                GestureDetector(
-                                  onTap: (){
-                                    Route route = MaterialPageRoute(builder: (_)=> ProductDetails());
-                                    Navigator.push(context, route);
-                                  },
-                                  child: Container(
-                                    width: 40,
-                                    height: 30,
-                                    decoration: BoxDecoration(                           
-                                      color: MyColor.primary,
-                                      borderRadius: BorderRadius.circular(5)
-                                    ),
-                                    child: Icon(Icons.arrow_forward_ios,color: MyColor.whitish,size: 24,),
-                                  )
-                                ),
+                                Text("Product Price: " + product['product-price'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
                               ],
                             )
 

@@ -25,6 +25,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   bool isCashPayment = false;
   bool ePayment = false;
+  bool isLoading  = false;
 
   var cartProducts = Cart().getCart;
 
@@ -36,9 +37,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return total.toString();
   }
 
-  createOrder() async {
-    final firestoreInstance = FirebaseFirestore.instance;
-      firestoreInstance.collection("order-list").add({
+  Future createOrder() async {
+      final firestoreInstance = FirebaseFirestore.instance;
+     await firestoreInstance.collection("order-list").add({
         'total' : getTotal(),
         'items': cartConntroller.carts,
         'user_id': 1,
@@ -55,6 +56,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
   
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
@@ -94,17 +96,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          child:GestureDetector(
-            onTap: (){
-              
+          child: GestureDetector(
+            onTap: ()async{   
               if (cartConntroller.carts.length < 1) {
                 return;
               }
-
-              createOrder();
-
+              setState(() {
+                isLoading = true;
+              });
+             await createOrder();
+              setState(() {
+                isLoading = false;
+              });
               Route route = MaterialPageRoute(builder: (_)=> OrderSuccess());
               Navigator.push(context, route);
+
             },
             child: Container(
               color: MyColor.primary,
@@ -118,7 +124,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Total',style: TextStyle(fontSize: 16,fontWeight: FontWeight.normal,color: MyColor.whitish)),
-                  Obx(() => Text(getTotal(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),),)
+                  Text(getTotal(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),),
                 ],
               ),
               Container(
@@ -137,7 +143,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         ),
       ),
     ),
-        body: SingleChildScrollView(
+        body:!isLoading ? SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -289,7 +295,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 child: Card(
                                 elevation: 3,
                                   child: Container(
-                                    padding: EdgeInsets.all(10),
                                       child: Row(
                                         children: [
                                           Container(
@@ -302,62 +307,44 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                           ),
                                           SizedBox(width: 15,),
                                           Container(
+                                            padding: EdgeInsets.only(bottom: 10),
                                             height: 100,
                                             width: MediaQuery.of(context).size.width / 2,
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                                               children: [
                                                 Text(
                                                   item['product-name'],
                                                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                                                 ),
                                                 Text(item['product-details'], overflow: TextOverflow.ellipsis,),
-                                                Text(item['total-price'].toString() + " TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                                                Text( "Price: "+item['total-price'].toString() + " TK",style: TextStyle(fontSize: 18),),
                                                 Container(
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      GestureDetector(
-                                                        onTap: (){},
-                                                        child: Container(
-                                                          width: 35,
-                                                          height: 35,
-                                                          decoration: BoxDecoration(
-                                                            color: MyColor.primary,
-                                                            borderRadius: BorderRadius.circular(10)
-                                                          ),
-                                                          child: Icon(Icons.remove,color: MyColor.whitish,size: 24,),
-                                                        )
-                                                      ),
-                                                      SizedBox(width: 10,),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 10,right: 10),
-                                                        child: Text(item['quantity'].toString()),
-                                                      ),
-                                                      SizedBox(width: 10,),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          cartConntroller.removeCartItem(item);
-                                                        },
-                                                        child: Container(
-                                                          width: 35,
-                                                          height: 35,
-                                                          decoration: BoxDecoration(
-                                                            color: MyColor.primary,
-                                                            borderRadius: BorderRadius.circular(10)
-                                                          ),
-                                                          child: Icon(Icons.add,color: MyColor.whitish,size: 24,),
-                                                        )
+                                                      
+                                                      Text("Quantity: ${item['quantity'].toString()}",style: TextStyle(color: MyColor.primary, fontSize: 16,fontWeight: FontWeight.bold),),
+                                                      InkWell(
+                                                        child: Icon(Icons.delete_forever_outlined,size: 28,color: Colors.redAccent,), 
+                                                        onTap: (){
+                                                          setState(() {
+                                                            cartConntroller.removeCartItem(item);
+                                                          });
+                                                          
+                                                        }
                                                       )
                                                     ],
                                                   ),
-                                                ),
-                                              ],
+                                                )
+                                             ],
                                             ),
                                           ),
                                         ],
                                       ),
+
+
                                     ),
                                   ),
                               ),
@@ -371,7 +358,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                   
                   
-                  Container(
+                Container(
                     width: double.infinity,
                     height: 44,
                     decoration: BoxDecoration(
@@ -425,7 +412,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             ),
           ),
-        ),
+        ) : Center(child: CircularProgressIndicator()),
 
     );
     

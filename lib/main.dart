@@ -2,8 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/core/route/app_route.dart';
-import 'package:green_dhaka/models/cart.dart';
-import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
 
@@ -12,6 +10,8 @@ void main() async{
    await Firebase.initializeApp();
   
   runApp(
-    GetMaterialApp(home: AppRoute()),
+    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AppRoute()),
   );
 }

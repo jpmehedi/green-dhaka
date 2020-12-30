@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:green_dhaka/constraint/color.dart';
-import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/custom_bottom_bar.dart';
+
 class MyOrderPage extends StatefulWidget {
   @override
   _MyOrderPageState createState() => _MyOrderPageState();
@@ -12,31 +11,39 @@ class MyOrderPage extends StatefulWidget {
 class _MyOrderPageState extends State<MyOrderPage> {
   final firestoreInstance = FirebaseFirestore.instance;
   var orders = [];
+  bool isLoading = false;
+  
+  var orderID = [] ;
+
 
   Future getOrders() async {
 
-    // setState(() {
-    //   isLoading  = true;
-    // });
-    firestoreInstance.collection("order-list").get().then((querySnapshot) {
+    setState(() {
+      isLoading  = true;
+    });
+    await firestoreInstance.collection("order-list").get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         print(result.data());
         setState(() {
           orders.add(result.data());
+          orderID.add(result.id);
           print(result.id);
         });
       });
     });
 
-    // setState(() {
-    //   isLoading = false;
-    // });
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  getOrderId(){
+  
   }
 
   @override
   initState() {
     super.initState();
-
     getOrders();
   }
 
@@ -65,7 +72,7 @@ class _MyOrderPageState extends State<MyOrderPage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
+        body: !isLoading ? SingleChildScrollView(
             child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
@@ -74,14 +81,14 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 children: [
                   Text("My Orders",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                   SizedBox(height: 30,),
-                  ...orders.map((e) {
-                    return MyOrderCartBuilder(order: e,);
+                  ...orders.map((order) {
+                    return MyOrderCartBuilder(order: order,);
                   })
                 ],
               ),
             ),
           ),
-        ),
+        ) : Center(child: CircularProgressIndicator(),),
     );
   
   }
@@ -102,7 +109,7 @@ class MyOrderCartBuilder extends StatelessWidget {
               padding: EdgeInsets.all(10),
             child: Row(
               children: [
-                Expanded(
+               Expanded(
                   flex: 3,
                    child: Container(
                     height: 80,
@@ -110,7 +117,7 @@ class MyOrderCartBuilder extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset("assets/images/flower10.jpg"),
+                    child: Image.asset("assets/images/order_history.png"),
                     ),
                 ),
                 SizedBox(width: 15,),
@@ -124,29 +131,14 @@ class MyOrderCartBuilder extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Belconi Box",
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),
+                          "Order id: SBK1414".toUpperCase(),
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
                         ),
-                        Text("Wooden belconi box with 5 type",overflow: TextOverflow.ellipsis,),
+                        Text("Payment Type: ${order['payment_type']}",overflow: TextOverflow.ellipsis,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("${order['total']}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
-                            GestureDetector(
-                              onTap: (){
-                                Route route = MaterialPageRoute(builder: (_)=> ProductDetails());
-                                Navigator.push(context, route);
-                              },
-                              child: Container(
-                                width: 40,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: MyColor.primary,
-                                  borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Icon(Icons.arrow_forward_ios,color: MyColor.whitish,size: 24,),
-                              )
-                            ),
+                            Text("Total taka:   ${order['total']}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
                           ],
                         )
 

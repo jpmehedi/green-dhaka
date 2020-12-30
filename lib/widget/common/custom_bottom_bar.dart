@@ -32,7 +32,7 @@ class _BaseNavLayoutState extends State<BaseNavLayout> {
         color: Color(0xffffffff).withOpacity(0.01),
         elevation: 9.0,
         child: Container(
-          height: 55.0,
+          height: 65.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(25.0), topLeft: Radius.circular(25.0)),

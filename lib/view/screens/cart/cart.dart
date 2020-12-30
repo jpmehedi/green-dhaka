@@ -5,7 +5,6 @@ import 'package:green_dhaka/models/cart.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
 import 'package:green_dhaka/view/screens/checkout/checkout.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
-import 'package:green_dhaka/widget/common/custom_cart.dart';
 import 'package:get/get.dart';
 
 class CartPage extends StatefulWidget {
@@ -24,23 +23,35 @@ class _CartPageState extends State<CartPage> {
 
   getTotal() {
     var total = 0;
-    cartProducts.forEach((item) {
+    cartConntroller.carts.forEach((item) {
       total += item['total-price'];
     });
     return total.toString();
   }
+  // getTotal() {
+  //   var total = 0;
+  //   cartProducts.forEach((item) {
+  //     print("item");
+  //     print(item['total-price']);
+  //     total += item['total-price'];
+  //   });
+  //   return total.toString();
+  // }
 
-  @override
-  initState() {
-
+@override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+        print("get total");
+    print(getTotal());
     return Scaffold(
       appBar: CustomAppBar(
           height: 50,
           child: Container(
+            color: MyColor.whitish,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -115,7 +126,7 @@ class _CartPageState extends State<CartPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Total', style: TextStyle(fontSize: 16,fontWeight: FontWeight.normal,color: MyColor.whitish)),
-                            Text(getTotal(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),),
+                            Text(getTotal(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: MyColor.whitish),)
                           ],
                         ),
                         Container(
@@ -135,8 +146,9 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.only(left: 15, right: 15),
           child: Container(
+            color: MyColor.whitish,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -158,7 +170,7 @@ class _CartPageState extends State<CartPage> {
                     child: Card(
                     elevation: 3,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        //padding: EdgeInsets.all(10),
                           child: Row(
                             children: [
                               Container(
@@ -170,59 +182,43 @@ class _CartPageState extends State<CartPage> {
                                 child: Image.network(item['image']),
                               ),
                               SizedBox(width: 15,),
-                              Container(
-                                height: 100,
-                                width: MediaQuery.of(context).size.width / 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      item['product-name'],
-                                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
-                                    ),
-                                    Text(item['product-details'],overflow: TextOverflow.ellipsis,),
-                                    Text(item['total-price'].toString() + " TK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {},
-                                            child: Container(
-                                              width: 35,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                color: MyColor.primary,
-                                                borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Icon(Icons.remove,color: MyColor.whitish,size: 24,),
-                                            )
+
+                          Container(
+                                    padding: EdgeInsets.only(bottom: 10),
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.width / 2,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          item['product-name'],
+                                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                                        ),
+                                        Text(item['product-details'], overflow: TextOverflow.ellipsis,),
+                                        Text( "Price: "+item['total-price'].toString() + " TK",style: TextStyle(fontSize: 18),),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              
+                                              Text("Quantity: ${item['quantity'].toString()}",style: TextStyle(color: MyColor.primary, fontSize: 16,fontWeight: FontWeight.bold),),
+                                              InkWell(
+                                                child: Icon(Icons.delete_forever_outlined,size: 28,color: Colors.redAccent,), 
+                                                onTap: (){
+                                                  setState(() {
+                                                     cartConntroller.removeCartItem(item);
+                                                  });
+                                                 
+                                                }
+                                              )
+                                            ],
                                           ),
-                                          SizedBox(width: 10,),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10,right: 10),
-                                            child: Text(item['quantity'].toString()),
-                                          ),
-                                          SizedBox(width: 10,),
-                                          GestureDetector(
-                                            onTap: (){},
-                                            child: Container(
-                                              width: 35,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                color: MyColor.primary,
-                                                borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Icon(Icons.add,color: MyColor.whitish,size: 24,),
-                                            )
-                                          )
-                                        ],
-                                      ),
+                                        )
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  ),
+                                  
                             ],
                           ),
                         ),
