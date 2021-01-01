@@ -7,6 +7,7 @@ import 'package:green_dhaka/widget/common/input_field_builder.dart';
 import 'package:green_dhaka/widget/common/long_button_builder.dart';
 import 'package:green_dhaka/widget/common/social_button_builder.dart';
 import 'package:green_dhaka/constraint/color.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
   static String PATH = "/LoginScreen";
@@ -38,6 +39,16 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.push(context, route);
     }
     }catch(e){
+
+      Fluttertoast.showToast(
+        msg: "You are not registred user.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black12,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
       print(e);
     }
       setState(() {

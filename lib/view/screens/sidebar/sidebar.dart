@@ -1,15 +1,17 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:green_dhaka/login/login.dart';
 import 'package:green_dhaka/view/screens/about/about.dart';
-import 'package:green_dhaka/view/screens/address/address_screen.dart';
 import 'package:green_dhaka/view/screens/notification/notifiaction_screen.dart';
 import 'package:green_dhaka/view/screens/profile/profile.dart';
 import 'package:green_dhaka/view/screens/setting/setting_screen.dart';
 import 'package:green_dhaka/view/screens/terms/terms_condition.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SideBar extends StatefulWidget {
   @override
@@ -18,7 +20,11 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
 
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   Map<String, dynamic> data;
+  bool isLoading  = false;
+
    final firestoreInstance = FirebaseFirestore.instance.collection("profileInfo");
     Future fetchProfileData()async{
     firestoreInstance.get().then((querySnapshot) {
@@ -65,10 +71,38 @@ class _SideBarState extends State<SideBar> {
     }
   }
 
+  _signOut() async {
+
+    setState(() {
+      isLoading = true;
+    });
+
+    await _firebaseAuth.signOut();
+
+     setState(() {
+      isLoading = false;
+    });
+
+    Fluttertoast.showToast(
+        msg: "Sucessfully Logout",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+
+    
+    Route route = MaterialPageRoute(builder: (_)=> LoginScreen());
+    Navigator.push(context, route);
+  
+   }
+
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return !isLoading ? ListView(
       children: <Widget>[
         Container(
           height: 150,
@@ -188,6 +222,15 @@ class _SideBarState extends State<SideBar> {
             trailing: Icon(Icons.navigate_next),
           ),
         ),
+        GestureDetector(
+          onTap:_signOut,
+          child: ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Log out'),
+            trailing: Icon(Icons.navigate_next),
+          ),
+        ),
+ 
  
       
         SizedBox(
@@ -231,6 +274,6 @@ class _SideBarState extends State<SideBar> {
           ],
         ),
       ],
-    );
+    ) : CircularProgressIndicator();
   }
 }
