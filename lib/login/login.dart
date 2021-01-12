@@ -89,7 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: GestureDetector(
                             onTap: () {
                               //TODO sign up functionality
-                              Navigator.pushNamed(context, Registration.PATH);
+                              // Navigator.pushNamed(context, Registration.PATH);
+                              Route route = MaterialPageRoute(builder: (_)=> Registration());
+                              Navigator.push(context, route);
                             },
                             child: Text(
                               "Sign up",

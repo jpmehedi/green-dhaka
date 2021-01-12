@@ -10,7 +10,6 @@ void main() async{
    await Firebase.initializeApp();
   
   runApp(
-    
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: AppRoute()),

@@ -36,6 +36,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
     super.initState();
   }
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(

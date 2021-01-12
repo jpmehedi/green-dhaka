@@ -7,6 +7,7 @@ import 'package:green_dhaka/view/screens/home/home_page.dart';
 import 'package:green_dhaka/widget/common/input_field_builder.dart';
 import 'package:green_dhaka/widget/common/long_button_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Registration extends StatefulWidget {
   static String PATH = "/Registration";
@@ -34,13 +35,23 @@ class _RegistrationState extends State<Registration> {
         final newUser = await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
         if(newUser != null){  
           saveProfileInfo();   
-          Navigator.pushNamed(context, HomePage.path);
+          Route route = MaterialPageRoute(builder: (_)=> HomePage());
+           Navigator.push(context, route);
+          // Navigator.pushNamed(context, HomePage.path);
         }  
       }on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+                Fluttertoast.showToast(
+              msg: "You have already registred",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black12,
+              textColor: Colors.white,
+              fontSize: 16.0
+            );
         }
       } catch(e) {
       print(e);
