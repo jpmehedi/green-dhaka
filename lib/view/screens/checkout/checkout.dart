@@ -12,22 +12,47 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CheckoutPage extends StatefulWidget {
+
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  @override
+
   final cartConntroller = Get.put(CartController());
   var name = 'Mehedi hasan';
   var address = '160/A, Green Road, Dhaka';
-  var mobile = '0192732793';
+  var mobile = '01790180825';
+ 
 
   bool isCashPayment = false;
   bool ePayment = false;
   bool isLoading  = false;
+  var getAddress;
+
+  sendAddress(){
+    if(getAddress != null) {
+     return address = getAddress['area']+" "+ getAddress['district'] +" "+ getAddress['thana'] ;
+    }
+  }
 
   var cartProducts = Cart().getCart;
+
+    void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+
+    // start the SecondScreen and wait for it to finish with a result
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddAddressRoute(),
+        ));
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+      getAddress = result;
+ 
+    });
+  }
 
   getTotal() {
     var total = 0;
@@ -44,8 +69,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
         'items': cartConntroller.carts,
         'user_id': 1,
         'name': name,
-        'address':  address,
-        'mobile': mobile,
+        'address': getAddress != null ? sendAddress() : address,
+        'mobile': getAddress != null ? getAddress['phone']:mobile,
         'payment_type': 'Cash on delivery',
         'coupon_code': 'BOISHAKH'
       }).then((value){
@@ -56,7 +81,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
   
   Widget build(BuildContext context) {
-
+  print("getAddress : $getAddress");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
@@ -170,18 +195,28 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              
                               Text('Shipping Address',style: TextStyle(color: MyColor.textColor,fontSize: 16 ),),
                               Text("Mehedi Hasan",style: TextStyle(color: MyColor.textColor,fontSize: 16,fontWeight: FontWeight.bold )),
-                              Text("160/ A, Green Road, Dhaka",style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
+                              Row(
+                                children: [   
+                                  Text(getAddress != null ? getAddress['address']: 'House # 221/2',style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
+                                  Text(', '),
+                                  Text(getAddress != null ? getAddress['thana']: 'Pullobi',style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
+                                  Text(', '),
+                                  Text(getAddress != null ? getAddress['district']: 'Dhaka',style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
+                                ],
+                              ),
                               Text("Bangladesh",style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
-                              Text("Mobile: 01790180825",style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
+                              Text(getAddress != null ? "Mobile: " + getAddress['phone']: "Mobile: 01790180825",style: TextStyle(color: MyColor.textColor,fontSize: 16 )),
                             ],
                           ),
                         ),
                         RawMaterialButton(
                           onPressed: (){
-                            Route route = MaterialPageRoute(builder: (_)=>AddAddressRoute());
-                            Navigator.push(context, route);
+                            _awaitReturnValueFromSecondScreen(context);
+                            // Route route = MaterialPageRoute(builder: (_)=>AddAddressRoute());
+                            // Navigator.push(context, route);
                           },
                           child: Container(
                             height: 40,

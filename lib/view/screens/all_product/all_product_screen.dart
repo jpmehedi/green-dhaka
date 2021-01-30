@@ -7,13 +7,16 @@ import 'package:green_dhaka/widget/common/product_cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
+
 class AllProductScreen extends StatefulWidget {
   @override
   _AllProductScreenState createState() => _AllProductScreenState();
 }
 
 class _AllProductScreenState extends State<AllProductScreen> {
+
   final cartConntroller = Get.put(CartController());
+
   final firestoreInstance = FirebaseFirestore.instance;
   var products = [];
   var allProducts = [];
@@ -24,9 +27,9 @@ class _AllProductScreenState extends State<AllProductScreen> {
     setState(() {
       isLoading  = true;
     });
-    firestoreInstance.collection("all-product").get().then((querySnapshot) {
+    await firestoreInstance.collection("all-product").get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
-        print(result.data());
+       // print(result.data());
         setState(() {
           allProducts.add(result.data());
         });

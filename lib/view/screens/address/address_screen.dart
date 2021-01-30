@@ -18,7 +18,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
   var mobileController = TextEditingController();
 
 
-   var address = {};
+
 
 
   
@@ -49,7 +49,8 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
           ),
         ),
         body: SingleChildScrollView(
-          reverse: true,
+          //reverse: false,
+          scrollDirection: Axis.vertical,
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -254,6 +255,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                               SizedBox(height: 10.0),
                               Container(
                                 width: (MediaQuery.of(context).size.width * 0.9),
+                                
                                 decoration: BoxDecoration(
                                     border: Border.all(color: MyColor.primary),
                                     borderRadius:
@@ -261,6 +263,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                 margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
                                 child: TextFormField(
                                   controller: mobileController,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
@@ -288,7 +291,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                    InkWell(
                                       onTap: () {
                                         
-                                        address = {
+                                       var address = {
                                           'district': districtController.text,
                                           'thana': thanaController.text,
                                           'area': areaController.text,
@@ -297,7 +300,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                         };
                                         print("address");
                                         print(address);
-                                        Navigator.pop(context,);
+                                        Navigator.pop(context, address);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -320,6 +323,9 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                   ],
                                 ),
                               ),
+                              Container(
+                                height: 280,
+                              )
                             ],
                           ),
                         ),

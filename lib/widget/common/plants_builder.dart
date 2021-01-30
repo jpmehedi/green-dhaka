@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
+import 'package:green_dhaka/product_details/products_details.dart';
 
 class PlantsBuilder extends StatelessWidget {
   const PlantsBuilder(
@@ -19,7 +20,7 @@ class PlantsBuilder extends StatelessWidget {
       elevation: 3,
       child: GestureDetector(
         onTap: (){
-          Route route = MaterialPageRoute(builder: (_)=>ProductDetails(product: product));
+          Route route = MaterialPageRoute(builder: (_)=>ProductsDetails());
           Navigator.push(context, route);
         },
         child: Container(
