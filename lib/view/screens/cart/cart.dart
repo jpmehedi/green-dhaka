@@ -185,7 +185,7 @@ class _CartPageState extends State<CartPage> {
 
                           Container(
                                     padding: EdgeInsets.only(bottom: 10),
-                                    height: 100,
+                                    height: 120,
                                     width: MediaQuery.of(context).size.width / 2,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,

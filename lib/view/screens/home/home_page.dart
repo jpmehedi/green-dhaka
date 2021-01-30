@@ -27,6 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final cartConntroller = Get.put(CartController());
+
   final _auth = FirebaseAuth.instance;
   var popularProducts = [];
   var offerProducts = [];
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   
   var products = [];
   var allProducts = [];
+  //var reviews = [];
 
   Future getAllProducts() async {
 
@@ -58,7 +60,34 @@ class _HomePageState extends State<HomePage> {
       isLoading = false;
     });
   }
-var data;
+
+  //   Future getReviews() async {
+
+  //   await firestoreInstance.collection("appReviews").get().then((querySnapshot) {
+  //     querySnapshot.docs.forEach((result) {
+  //       print(result.data());
+  //       setState(() {
+  //         reviews.add(result.data());
+  //         print(reviews);
+  //       });
+  //     });
+  //   });
+  // }
+    var reviews = [];
+
+    final firestoreInstances = FirebaseFirestore.instance.collection("appReviews");
+    Future fatchReviews()async{
+    firestoreInstances.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        setState(() {
+         reviews.add(result.data());
+        });
+      print("reviews $reviews");
+      });
+     });
+    }
+
+  var data;
   searchProduts(query) {
     data = allProducts.where((item) => item['product-name'].toLowerCase().contains(query.toLowerCase())).toList();
     setState(() {
@@ -113,7 +142,8 @@ var data;
       getCurrentUser();
       getPopularProducts();
       getOfferProducts();
-       getAllProducts();
+      getAllProducts();
+      fatchReviews();
 }
 
   void getCurrentUser(){
@@ -334,7 +364,7 @@ var data;
                                   children: [
                                     OfferCartBuilder(
                                       imageID: item['image'],
-                                      foodName: item['product-name'],
+                                      //foodName: item['product-name'],
                                       product: item,
                                       onTap: (){
                                         Route route = MaterialPageRoute(builder: (_)=> ProductDetails(product: item,));
@@ -564,11 +594,15 @@ var data;
                 ),
                 Column(
                   children: [
-                    Reviews(),
-                    Reviews(),
-                    Reviews(),
-                    Reviews(),
-                    Reviews(),
+
+                    ...reviews.map((review) {
+                      return Reviews(
+                        name: review['name'],
+                        reviewMassage: review['ratingMassage'],
+                        rating: review['rating'],
+                      );
+                    }),
+
                   ],
                 ),
                 
@@ -583,45 +617,51 @@ var data;
 
 
 class Reviews extends StatelessWidget {
+  Reviews({this.name, this.rating, this.reviewMassage});
+  final String name;
+  final String reviewMassage;
+  final String rating;
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-                  child: ListTile(
-                             leading: Image.asset('assets/images/profile'
-                                 '.png'),
-                             title: Text("Mehedi Hasan"),
-                             subtitle: Text(
-                               "Nice app and well developed by the team.",
-                               overflow: TextOverflow.ellipsis,
-                             ),
-                             trailing: Container(
-                                 width: 40,
-                                 height: 25,
-                                 decoration: BoxDecoration(
-                                   color: MyColor.secondary,
-                                   borderRadius: BorderRadius.circular(15) 
-                                 ),
-                                 child: Row(
-                                   mainAxisAlignment: MainAxisAlignment.center,
-                                   children: <Widget>[
-                                     Text(
-                                       "5",
-                                       style: TextStyle(
-                                         fontSize: 18,
-                                         color: MyColor.primary,
-                                       ),
-                                     ),
-                                     Icon(
-                                       Icons.star,
-                                       size: 18,
-                                       color: MyColor.primary,
-                                     ),
-                                   ],
-                                 )),
-                           ),
-        ),
+         Expanded(
+            child: ListTile(
+              leading: Image.asset('assets/images/profile'
+                  '.png'),
+              title: Text(name),
+              subtitle: Text(
+                reviewMassage,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: Container(
+                  width: 50,
+                  height: 25,
+                  decoration: BoxDecoration(
+                    color: MyColor.secondary,
+                    borderRadius: BorderRadius.circular(15) 
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        rating,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: MyColor.primary,
+                        ),
+                      ),
+                      Icon(
+                        Icons.star,
+                        size: 18,
+                        color: MyColor.primary,
+                      ),
+                    ],
+                  )),
+            ),
+         ),
+      
+        
       ],
     );
   }

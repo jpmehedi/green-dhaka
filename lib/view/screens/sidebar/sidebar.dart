@@ -12,6 +12,8 @@ import 'package:green_dhaka/view/screens/setting/setting_screen.dart';
 import 'package:green_dhaka/view/screens/terms/terms_condition.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart'; 
+
 
 class SideBar extends StatefulWidget {
   @override
@@ -24,6 +26,7 @@ class _SideBarState extends State<SideBar> {
 
   Map<String, dynamic> data;
   bool isLoading  = false;
+  
 
    final firestoreInstance = FirebaseFirestore.instance.collection("profileInfo");
     Future fetchProfileData()async{
@@ -70,6 +73,7 @@ class _SideBarState extends State<SideBar> {
       throw 'Could not launch $url';
     }
   }
+
 
   _signOut() async {
 
@@ -216,6 +220,9 @@ class _SideBarState extends State<SideBar> {
         ),
         GestureDetector(
           onTap:_launchAppRating,
+          // onTap: () {
+          //   showAlertDialog(context);
+          // },
           child: ListTile(
             leading: Icon(Icons.rate_review),
             title: Text('Rating'),
@@ -277,3 +284,6 @@ class _SideBarState extends State<SideBar> {
     ) : CircularProgressIndicator();
   }
 }
+
+
+

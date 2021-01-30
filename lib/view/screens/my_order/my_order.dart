@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/widget/common/custom_appbar.dart';
 import 'package:green_dhaka/widget/common/custom_bottom_bar.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart'; 
+import 'dart:async';
+
 
 class MyOrderPage extends StatefulWidget {
   @override
@@ -9,6 +13,8 @@ class MyOrderPage extends StatefulWidget {
 }
 
 class _MyOrderPageState extends State<MyOrderPage> {
+
+
   final firestoreInstance = FirebaseFirestore.instance;
   var orders = [];
   bool isLoading = false;
@@ -45,6 +51,13 @@ class _MyOrderPageState extends State<MyOrderPage> {
   initState() {
     super.initState();
     getOrders();
+
+      Future.delayed( Duration(milliseconds: 1500), () {
+      setState(() {
+        showAlertDialog(context);
+      });
+
+    });
   }
 
   @override
@@ -155,4 +168,126 @@ class MyOrderCartBuilder extends StatelessWidget {
       ],
     );
   }
+}
+
+  var rating = 0.0;
+  var massageController = TextEditingController();
+    var nameController = TextEditingController();
+     void saveAppReviews(){
+      final firestoreInstance = FirebaseFirestore.instance;
+      firestoreInstance.collection("appReviews").add({
+        'name':nameController.text,
+        'ratingMassage' : massageController.text,
+        'rating': rating.toString(),
+      }).then((value){
+        print(value.id);
+      });
+    }
+ 
+   showAlertDialog(BuildContext context)async {
+    return  await showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            height: 180,
+            child: Column(
+              children: [
+                Container(
+                  width: (MediaQuery.of(context).size.width * 0.9),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: MyColor.primary),
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(10))),
+                  margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                  child: TextFormField(
+                    controller: nameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10.0),
+                      border: InputBorder.none,
+                      hintText: 'Write your full name',
+                      hintStyle: TextStyle(
+                        fontFamily: 'SolaimanLipi',
+                        color: new Color(0xFF8c8c8c),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: MyColor.secondary),
+                      ),
+                    ),
+                
+                    onSaved: (String value) {
+                      nameController.text = value;
+                    },
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Container(
+                  width: (MediaQuery.of(context).size.width * 0.9),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: MyColor.primary),
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(10))),
+                  margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                  child: TextFormField(
+                    controller: massageController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10.0),
+                      border: InputBorder.none,
+                      hintText: 'Write your openion',
+                      hintStyle: TextStyle(
+                        fontFamily: 'SolaimanLipi',
+                        color: new Color(0xFF8c8c8c),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: MyColor.secondary),
+                      ),
+                    ),
+                
+                    onSaved: (String value) {
+                      massageController.text = value;
+                    },
+                  ),
+                ),
+                SizedBox(height: 10,),
+                SmoothStarRating(
+                    rating: rating,
+                    isReadOnly: false,
+                    size: 35,
+                    color: Colors.orange,
+                    borderColor: Colors.grey,
+                    filledIconData: Icons.star,
+                    halfFilledIconData: Icons.star_half,
+                    defaultIconData: Icons.star_border,
+                    starCount: 5,
+                    allowHalfRating: false,
+                    spacing: 2.0,
+                    onRated: (value) {
+                        setState(() {
+                          rating = value;
+                        });
+                    },
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+      actions: [
+        FlatButton(
+          onPressed: (){
+            saveAppReviews();
+            Navigator.pop(context);
+          }, 
+          child: Text('Submit'),
+        )
+      ],
+    );
+    }
+  );
 }

@@ -4,12 +4,12 @@ class OfferCartBuilder extends StatelessWidget {
   const OfferCartBuilder({
     Key key,
     @required this.imageID,
-    this.foodName,
+    //this.foodName,
     this.product,
     this.onTap
   }) : super(key: key);
   final String imageID;
-  final String foodName;
+  //final String foodName;
   final product;
   final Function onTap;
   @override

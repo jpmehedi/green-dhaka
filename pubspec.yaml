@@ -23,6 +23,7 @@ dependencies:
   provider: ^4.3.2+3
   get: ^3.24.0
   fluttertoast: ^7.1.6
+  smooth_star_rating: 1.1.1
 
 dev_dependencies:
   flutter_test:

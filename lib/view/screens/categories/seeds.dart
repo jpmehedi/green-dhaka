@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/widget/common/most_popular_cart.dart';
+import 'package:green_dhaka/widget/common/plants_builder.dart';
 
 class SeedScreen extends StatefulWidget {
   SeedScreen({Key key}) : super(key: key);
@@ -159,34 +160,39 @@ class _ContentSpaceState extends State<ContentSpace> {
                   padding: EdgeInsets.all(4.0),
                   childAspectRatio: (itemWidth / itemHeight),
                   children: [
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
+                    PlantsBuilder(
+                      imageID: "assets/images/plants1.png",
+                      productName: "Pinus serotina",
                       productPrice: "485 TK",
                     ),
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
+                    PlantsBuilder(
+                      imageID: "assets/images/plants3.png",
+                      productName: "Hemlock",
                       productPrice: "485 TK",
                     ),
-                     MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
+                    PlantsBuilder(
+                      imageID: "assets/images/plants6.png",
+                      productName: "Magnolia",
                       productPrice: "485 TK",
                     ),
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
+                    PlantsBuilder(
+                      imageID: "assets/images/plants1.png",
+                      productName: "Maple",
                       productPrice: "680 TK",
                     ),
-                     MostPopularCart(
-                      imageID: "10.jpg",
+                    PlantsBuilder(
+                      imageID: "assets/images/plants1.png",
+                      productName: "Alonda",
+                      productPrice: "485 TK",
+                    ),
+                    PlantsBuilder(
+                      imageID: "assets/images/plants3.png",
                       productName: "Nice Product",
                       productPrice: "485 TK",
                     ),
-                    MostPopularCart(
-                      imageID: "10.jpg",
-                      productName: "Nice Product",
+                    PlantsBuilder(
+                      imageID: "assets/images/plants3.png",
+                      productName: "Shortleaf ",
                       productPrice: "485 TK",
                     ),
                   ]
