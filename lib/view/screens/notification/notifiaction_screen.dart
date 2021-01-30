@@ -8,7 +8,7 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-    String title = "Title";
+    String title = 'Test massage';
     var itemCount;
 
     @override
@@ -16,17 +16,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
           
     _firebaseMessaging.configure(
       onMessage: (message) async{
-        print("message");
-           print(message);
-           itemCount = message;
+        itemCount = message;
         setState(() {
           title = message["notification"]["title"];
         });
 
       },
+
       onResume: (message) async{
-              print("message");
-           print(message);
         setState(() {
           title = message["data"]["title"];
         });

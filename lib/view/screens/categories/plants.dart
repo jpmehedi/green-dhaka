@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/view/screens/cart/cart.dart';
 import 'package:green_dhaka/widget/common/most_popular_cart.dart';
+import 'package:green_dhaka/widget/common/plants_builder.dart';
 
 class PlantScreen extends StatefulWidget {
   PlantScreen({Key key}) : super(key: key);
@@ -203,33 +204,33 @@ class _ContentSpaceState extends State<ContentSpace> {
       mainAxisSpacing: 8,
       childAspectRatio: (itemWidth / itemHeight),
       children: [
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-         MostPopularCart(
-          imageID: "10.jpg",
+         PlantsBuilder(
+          imageID: "assets/images/plants6.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "680 TK",
         ),
-         MostPopularCart(
-          imageID: "10.jpg",
+         PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
@@ -245,28 +246,33 @@ class _ContentSpaceState extends State<ContentSpace> {
       mainAxisSpacing: 8,
       childAspectRatio: (itemWidth / itemHeight),
       children: [
-        MostPopularCart(
-          imageID: "10.jpg",
+       PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-         MostPopularCart(
-          imageID: "10.jpg",
+         PlantsBuilder(
+          imageID: "assets/images/plants6.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "680 TK",
         ),
-         MostPopularCart(
-          imageID: "10.jpg",
+         PlantsBuilder(
+          imageID: "assets/images/plants6.png",
+          productName: "Nice Product",
+          productPrice: "485 TK",
+        ),
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
@@ -284,33 +290,33 @@ class _ContentSpaceState extends State<ContentSpace> {
       mainAxisSpacing: 8,
       childAspectRatio: (itemWidth / itemHeight),
       children: [
-        MostPopularCart(
-          imageID: "10.jpg",
+       PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
          MostPopularCart(
-          imageID: "10.jpg",
+          imageID: "assets/images/plants6.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "680 TK",
         ),
-         MostPopularCart(
-          imageID: "10.jpg",
+         PlantsBuilder(
+          imageID: "assets/images/plants6.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
@@ -327,33 +333,33 @@ class _ContentSpaceState extends State<ContentSpace> {
       mainAxisSpacing: 8,
       childAspectRatio: (itemWidth / itemHeight),
       children: [
-        MostPopularCart(
-          imageID: "10.jpg",
+       PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-         MostPopularCart(
-          imageID: "10.jpg",
+         PlantsBuilder(
+          imageID: "assets/images/plants6.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants1.png",
           productName: "Nice Product",
           productPrice: "680 TK",
         ),
-         MostPopularCart(
-          imageID: "10.jpg",
+         PlantsBuilder(
+          imageID: "assets/images/plants6.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),
-        MostPopularCart(
-          imageID: "10.jpg",
+        PlantsBuilder(
+          imageID: "assets/images/plants3.png",
           productName: "Nice Product",
           productPrice: "485 TK",
         ),

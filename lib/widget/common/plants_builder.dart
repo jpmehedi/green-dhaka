@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:green_dhaka/constraint/color.dart';
 import 'package:green_dhaka/product_details/product_details.dart';
 
-class MostPopularCart extends StatelessWidget {
-  const MostPopularCart(
+class PlantsBuilder extends StatelessWidget {
+  const PlantsBuilder(
       {Key key, @required this.imageID, this.productName, this.productPrice, this.product})
       : super(key: key);
 
@@ -33,7 +33,7 @@ class MostPopularCart extends StatelessWidget {
                   //   topLeft: Radius.circular(8.0),
                   //   topRight: Radius.circular(8.0),
                   // ),
-                  child: Image.network(
+                  child: Image.asset(
                     "$imageID",
                     width: MediaQuery.of(context).size.width,
                     height: 140,

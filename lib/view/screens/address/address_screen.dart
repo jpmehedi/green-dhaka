@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:green_dhaka/constraint/color.dart';
@@ -10,7 +11,18 @@ class AddAddressRoute extends StatefulWidget {
 
 class _AddAddressRouteState extends State<AddAddressRoute> {
   final _formKey = GlobalKey<FormState>();
+  var districtController = TextEditingController();
+  var thanaController = TextEditingController();
+  var areaController = TextEditingController();
   var addressController = TextEditingController();
+  var mobileController = TextEditingController();
+
+
+   var address = {};
+
+
+  
+
 
   @override
   void initState() {
@@ -73,7 +85,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                         BorderRadius.all(Radius.circular(10))),
                                 margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
                                 child: TextFormField(
-                                  controller: addressController,
+                                  controller: districtController,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
@@ -88,7 +100,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                   ),
                               
                                   onSaved: (String value) {
-                                    // addressController.text = value;
+                                     districtController.text = value;
                                   },
                                 ),
                               ),
@@ -117,7 +129,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                         BorderRadius.all(Radius.circular(10))),
                                 margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
                                 child: TextFormField(
-                                  controller: addressController,
+                                  controller: thanaController,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
@@ -132,7 +144,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                   ),
                               
                                   onSaved: (String value) {
-                                    // addressController.text = value;
+                                   thanaController.text = value;
                                   },
                                 ),
                               ),
@@ -161,7 +173,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                         BorderRadius.all(Radius.circular(10))),
                                 margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
                                 child: TextFormField(
-                                  controller: addressController,
+                                  controller: areaController,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
@@ -176,7 +188,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                   ),
                               
                                   onSaved: (String value) {
-                                    // addressController.text = value;
+                                    areaController.text = value;
                                   },
                                 ),
                               ),
@@ -220,7 +232,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                   ),
                               
                                   onSaved: (String value) {
-                                    // addressController.text = value;
+                                    addressController.text = value;
                                   },
                                 ),
                               ),
@@ -248,7 +260,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                         BorderRadius.all(Radius.circular(10))),
                                 margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
                                 child: TextFormField(
-                                  controller: addressController,
+                                  controller: mobileController,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
@@ -263,7 +275,7 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                   ),
                               
                                   onSaved: (String value) {
-                                    // addressController.text = value;
+                                    mobileController.text = value;
                                   },
                                 ),
                               ),
@@ -274,7 +286,19 @@ class _AddAddressRouteState extends State<AddAddressRoute> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
                                    InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        
+                                        address = {
+                                          'district': districtController.text,
+                                          'thana': thanaController.text,
+                                          'area': areaController.text,
+                                          'address': addressController.text,
+                                          'phone': mobileController.text
+                                        };
+                                        print("address");
+                                        print(address);
+                                        Navigator.pop(context,);
+                                      },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 35.0),

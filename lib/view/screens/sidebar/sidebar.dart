@@ -147,23 +147,23 @@ class _SideBarState extends State<SideBar> {
               SizedBox(
                 width: 50,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  data != null ?IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: MyColor.whitish,
-                    ),
-                    onPressed: () {
-                      Route route = MaterialPageRoute(builder: (_)=> Profile());
-                      Navigator.push(context, route);
-                    },
-                  ) : Container(
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   children: <Widget>[
+              //     data != null ?IconButton(
+              //       icon: Icon(
+              //         Icons.edit,
+              //         color: MyColor.whitish,
+              //       ),
+              //       onPressed: () {
+              //         Route route = MaterialPageRoute(builder: (_)=> Profile());
+              //         Navigator.push(context, route);
+              //       },
+              //     ) : Container(
                     
-                  ),
-                ],
-              )
+              //     ),
+              //   ],
+              // )
             ],
           ),
         ),
